@@ -11,6 +11,9 @@ public class MmsJobs implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        // Strip embargoed JobsPlusTools weapon-dups from creative tabs and search
+        JobsToolsEmbargo.register();
+
         // /mmsjob debug wrappers (op only) — self-targeted Jobs+ test harness
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             if (net.fabricmc.loader.api.FabricLoader.getInstance().isModLoaded("jobsplus")) {

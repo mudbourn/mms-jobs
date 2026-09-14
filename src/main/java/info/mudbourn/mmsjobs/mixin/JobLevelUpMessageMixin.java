@@ -29,7 +29,9 @@ public class JobLevelUpMessageMixin {
         at = @At(
             value = "INVOKE",
             target = "Lcom/daqem/jobsplus/JobsPlus;translatable(Ljava/lang/String;[Ljava/lang/Object;)Lnet/minecraft/network/chat/MutableComponent;"
-        )
+        ),
+        // Cosmetic-only fix; tolerate a mismatched Jobs+ build rather than crash the server.
+        require = 0
     )
     private static MutableComponent mmsCompat$useTranslatableJobName(String key, Object[] args, JobsPlayer player, Job job) {
         // args[2] is the job name — was .getName().getString() (literal).

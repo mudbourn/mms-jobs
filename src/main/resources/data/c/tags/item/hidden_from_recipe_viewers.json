@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "jobsplustools:copper_compound_bow",
+    "jobsplustools:copper_longsword",
+    "jobsplustools:diamond_compound_bow",
+    "jobsplustools:diamond_longsword",
+    "jobsplustools:golden_compound_bow",
+    "jobsplustools:golden_longsword",
+    "jobsplustools:iron_compound_bow",
+    "jobsplustools:iron_longsword",
+    "jobsplustools:netherite_compound_bow",
+    "jobsplustools:netherite_longsword",
+    "jobsplustools:stone_compound_bow",
+    "jobsplustools:stone_longsword",
+    "jobsplustools:wooden_compound_bow",
+    "jobsplustools:wooden_longsword"
+  ]
+}

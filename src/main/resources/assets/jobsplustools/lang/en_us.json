@@ -1,0 +1,10 @@
+{
+  "item.jobsplustools.wooden_hammer": "Wooden Crusher",
+  "item.jobsplustools.stone_hammer": "Stone Crusher",
+  "item.jobsplustools.copper_hammer": "Copper Crusher",
+  "item.jobsplustools.iron_hammer": "Iron Crusher",
+  "item.jobsplustools.golden_hammer": "Golden Crusher",
+  "item.jobsplustools.diamond_hammer": "Diamond Crusher",
+  "item.jobsplustools.netherite_hammer": "Netherite Crusher",
+  "tag.item.jobsplustools.pickaxes": "Jobs+ Crushers"
+}

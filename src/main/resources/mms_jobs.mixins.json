@@ -3,7 +3,12 @@
   "package": "info.mudbourn.mmsjobs.mixin",
   "compatibilityLevel": "JAVA_21",
   "plugin": "info.mudbourn.mmsjobs.mixin.JobsMixinGate",
-  "mixins": ["JobLevelUpMessageMixin", "JobXpCooldownMixin", "ActionDataCooldownMixin"],
+  "mixins": [
+    "JobLevelUpMessageMixin",
+    "JobXpCooldownMixin",
+    "ActionDataCooldownMixin",
+    "JobsToolsMobEquipmentMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
