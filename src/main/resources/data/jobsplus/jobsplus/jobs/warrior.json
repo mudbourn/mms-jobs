@@ -1,0 +1,8 @@
+{
+  "name": "Warrior",
+  "price": 10,
+  "color": "#8B0000",
+  "icon": {
+    "id": "minecraft:iron_sword"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:warrior",
+  "parent": "jobsplus:warrior/sword_unbreaking_iv",
+  "icon": {
+    "id": "minecraft:diamond_sword",
+    "count": 5
+  },
+  "price": 15,
+  "required_level": 80
+}

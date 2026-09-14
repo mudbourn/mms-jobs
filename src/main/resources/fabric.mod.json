@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "mms_jobs",
+  "version": "${version}",
+  "name": "MMS Jobs",
+  "description": "The MMS Jobs+ layer: custom job roster plus the level-up message fix, XP cooldown and self-targeted debug command. An optional companion to mms-origins.",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "info.mudbourn.mmsjobs.MmsJobs"
+    ]
+  },
+  "mixins": [
+    "mms_jobs.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  },
+  "recommends": {
+    "jobsplus": "*",
+    "mms_origins": "*"
+  }
+}

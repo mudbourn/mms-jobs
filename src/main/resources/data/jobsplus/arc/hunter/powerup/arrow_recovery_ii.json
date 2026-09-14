@@ -1,0 +1,19 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:hunter/arrow_recovery_ii"
+  },
+  "type": "arc:on_shoot_projectile",
+  "rewards": [
+    {
+      "type": "arc:cancel_action",
+      "chance": 25
+    }
+  ],
+  "conditions": [
+    {
+      "type": "arc:entity_type",
+      "entity_type": "minecraft:arrow"
+    }
+  ]
+}

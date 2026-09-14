@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:warrior",
+  "parent": "jobsplus:warrior/attack_speed_iii",
+  "icon": {
+    "id": "minecraft:golden_sword",
+    "count": 4
+  },
+  "price": 12,
+  "required_level": 50
+}

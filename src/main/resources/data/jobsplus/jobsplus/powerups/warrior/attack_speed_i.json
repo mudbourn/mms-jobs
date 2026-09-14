@@ -1,0 +1,8 @@
+{
+  "job": "jobsplus:warrior",
+  "icon": {
+    "id": "minecraft:golden_sword"
+  },
+  "price": 5,
+  "required_level": 5
+}
