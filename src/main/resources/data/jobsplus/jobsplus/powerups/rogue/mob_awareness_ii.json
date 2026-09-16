@@ -1,0 +1,9 @@
+{
+  "job": "jobsplus:rogue",
+  "parent": "jobsplus:rogue/mob_awareness_i",
+  "icon": {
+    "id": "minecraft:phantom_membrane"
+  },
+  "price": 8,
+  "required_level": 25
+}

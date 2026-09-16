@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:rogue",
+  "parent": "jobsplus:rogue/rogue_exp_boost_i",
+  "icon": {
+    "id": "minecraft:experience_bottle",
+    "count": 2
+  },
+  "price": 8,
+  "required_level": 25
+}

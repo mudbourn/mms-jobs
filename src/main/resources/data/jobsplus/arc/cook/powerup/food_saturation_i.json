@@ -1,0 +1,23 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:cook/food_saturation_i"
+  },
+  "type": "arc:on_eat",
+  "rewards": [
+    {
+      "type": "arc:effect",
+      "effect": {
+        "id": "minecraft:saturation",
+        "amplifier": 0,
+        "duration": 1
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:cook/food_saturation_ii"
+    }
+  ]
+}

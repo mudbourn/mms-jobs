@@ -1,0 +1,23 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:cook/cooking_speed_i"
+  },
+  "type": "arc:on_smelt_item",
+  "rewards": [
+    {
+      "type": "arc:effect",
+      "effect": {
+        "id": "minecraft:saturation",
+        "amplifier": 0,
+        "duration": 1
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:cook/cooking_speed_ii"
+    }
+  ]
+}

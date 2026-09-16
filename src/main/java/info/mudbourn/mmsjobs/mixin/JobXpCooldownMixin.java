@@ -36,8 +36,17 @@ public class JobXpCooldownMixin {
 
         CooldownCategory category = JobsPlusActionCooldown.getCooldownType();
         String actionId = JobsPlusActionCooldown.getCurrentActionId();
+        String jobId = jobInstance.getIdentifier().toString();
+
+        // Weapon-gated jobs earn combat XP only from their damage type
+        boolean weaponBlocked = JobsPlusActionCooldown.isWeaponBlocked(jobId);
         // Clean up ThreadLocal after reading
         JobsPlusActionCooldown.clearCooldownType();
+
+        if (weaponBlocked) {
+            report(serverPlayer, jobId, actionId, category, false, experience, 0.0);
+            return 0.0; // wrong weapon type for this job
+        }
 
         boolean unrecognised = category == CooldownCategory.NONE;
         // NONE means the action type was not recognised — default to HARD
@@ -46,7 +55,6 @@ public class JobXpCooldownMixin {
         }
 
         long gameTime = serverPlayer.level().getGameTime();
-        String jobId = jobInstance.getIdentifier().toString();
 
         if (JobsPlusActionCooldown.isOnCooldown(serverPlayer.getUUID(), jobId, category, gameTime)) {
             report(serverPlayer, jobId, actionId, category, unrecognised, experience, 0.0);

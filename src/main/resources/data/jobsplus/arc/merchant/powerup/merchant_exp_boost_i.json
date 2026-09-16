@@ -1,0 +1,20 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:merchant/merchant_exp_boost_i"
+  },
+  "type": "arc:on_trade_with_villager",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp_multiplier",
+      "job": "jobsplus:merchant",
+      "multiplier": 1.5
+    }
+  ],
+  "conditions": [
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:merchant/merchant_exp_boost_ii"
+    }
+  ]
+}

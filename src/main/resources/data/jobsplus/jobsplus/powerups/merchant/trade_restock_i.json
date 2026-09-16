@@ -1,0 +1,8 @@
+{
+  "job": "jobsplus:merchant",
+  "icon": {
+    "id": "minecraft:bell"
+  },
+  "price": 5,
+  "required_level": 10
+}

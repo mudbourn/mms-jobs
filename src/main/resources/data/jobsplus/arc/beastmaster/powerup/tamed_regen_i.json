@@ -1,0 +1,23 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:beastmaster/tamed_regen_i"
+  },
+  "type": "arc:on_interact_entity",
+  "rewards": [
+    {
+      "type": "arc:effect",
+      "effect": {
+        "id": "minecraft:regeneration",
+        "amplifier": 0,
+        "duration": 60
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:beastmaster/tamed_regen_ii"
+    }
+  ]
+}

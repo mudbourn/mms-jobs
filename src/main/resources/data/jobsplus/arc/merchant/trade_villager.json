@@ -1,0 +1,14 @@
+{
+  "holder": {
+    "type": "jobsplus:job",
+    "id": "jobsplus:merchant"
+  },
+  "type": "arc:on_trade_with_villager",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp",
+      "min": 4,
+      "max": 8
+    }
+  ]
+}

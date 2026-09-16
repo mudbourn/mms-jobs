@@ -1,0 +1,20 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:rogue/rogue_exp_boost_i"
+  },
+  "type": "arc:on_kill_entity",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp_multiplier",
+      "job": "jobsplus:rogue",
+      "multiplier": 1.5
+    }
+  ],
+  "conditions": [
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:rogue/rogue_exp_boost_ii"
+    }
+  ]
+}

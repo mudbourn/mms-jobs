@@ -1,0 +1,14 @@
+{
+  "holder": {
+    "type": "jobsplus:job",
+    "id": "jobsplus:rancher"
+  },
+  "type": "arc:on_interact_entity",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp",
+      "min": 1,
+      "max": 2
+    }
+  ]
+}

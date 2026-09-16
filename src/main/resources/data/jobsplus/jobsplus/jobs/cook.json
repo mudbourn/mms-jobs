@@ -1,0 +1,8 @@
+{
+  "name": "Cook",
+  "price": 10,
+  "color": "#FF8C00",
+  "icon": {
+    "id": "minecraft:rabbit_stew"
+  }
+}

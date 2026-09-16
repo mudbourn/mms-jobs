@@ -1,0 +1,9 @@
+{
+  "job": "jobsplus:beastmaster",
+  "parent": "jobsplus:beastmaster/tamed_resistance_i",
+  "icon": {
+    "id": "minecraft:shield"
+  },
+  "price": 8,
+  "required_level": 25
+}

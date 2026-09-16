@@ -1,0 +1,8 @@
+{
+  "job": "jobsplus:rancher",
+  "icon": {
+    "id": "minecraft:shears"
+  },
+  "price": 5,
+  "required_level": 10
+}

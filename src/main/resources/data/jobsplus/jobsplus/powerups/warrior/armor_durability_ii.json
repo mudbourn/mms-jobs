@@ -1,0 +1,9 @@
+{
+  "job": "jobsplus:warrior",
+  "parent": "jobsplus:warrior/armor_durability_i",
+  "icon": {
+    "id": "minecraft:iron_chestplate"
+  },
+  "price": 8,
+  "required_level": 25
+}

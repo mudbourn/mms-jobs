@@ -1,0 +1,23 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:explorer/swim_speed_i"
+  },
+  "type": "arc:on_swim",
+  "rewards": [
+    {
+      "type": "arc:effect",
+      "effect": {
+        "id": "minecraft:dolphins_grace",
+        "amplifier": 0,
+        "duration": 60
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:explorer/swim_speed_ii"
+    }
+  ]
+}

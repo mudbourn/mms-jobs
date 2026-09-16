@@ -7,6 +7,7 @@
     "JobLevelUpMessageMixin",
     "JobXpCooldownMixin",
     "ActionDataCooldownMixin",
+    "JobManagerFilterMixin",
     "JobsToolsMobEquipmentMixin"
   ],
   "injectors": {

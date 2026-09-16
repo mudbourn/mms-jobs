@@ -1,0 +1,14 @@
+{
+  "holder": {
+    "type": "jobsplus:job",
+    "id": "jobsplus:rogue"
+  },
+  "type": "arc:on_crouch",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp",
+      "min": 1,
+      "max": 1
+    }
+  ]
+}

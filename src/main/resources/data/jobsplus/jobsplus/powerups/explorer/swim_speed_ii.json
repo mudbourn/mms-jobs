@@ -1,0 +1,9 @@
+{
+  "job": "jobsplus:explorer",
+  "parent": "jobsplus:explorer/swim_speed_i",
+  "icon": {
+    "id": "minecraft:prismarine_crystals"
+  },
+  "price": 8,
+  "required_level": 25
+}

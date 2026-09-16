@@ -1,0 +1,23 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:rogue/mob_awareness_i"
+  },
+  "type": "arc:on_crouch",
+  "rewards": [
+    {
+      "type": "arc:effect",
+      "effect": {
+        "id": "minecraft:invisibility",
+        "amplifier": 0,
+        "duration": 60
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:rogue/mob_awareness_ii"
+    }
+  ]
+}

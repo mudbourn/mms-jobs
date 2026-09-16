@@ -1,0 +1,9 @@
+{
+  "job": "jobsplus:cook",
+  "parent": "jobsplus:cook/food_saturation_i",
+  "icon": {
+    "id": "minecraft:cooked_beef"
+  },
+  "price": 8,
+  "required_level": 25
+}

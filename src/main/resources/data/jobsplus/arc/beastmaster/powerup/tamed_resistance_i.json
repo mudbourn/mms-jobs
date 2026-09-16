@@ -1,0 +1,23 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:beastmaster/tamed_resistance_i"
+  },
+  "type": "arc:on_interact_entity",
+  "rewards": [
+    {
+      "type": "arc:effect",
+      "effect": {
+        "id": "minecraft:resistance",
+        "amplifier": 0,
+        "duration": 60
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:beastmaster/tamed_resistance_ii"
+    }
+  ]
+}

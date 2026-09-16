@@ -1,0 +1,9 @@
+{
+  "job": "jobsplus:warrior",
+  "parent": "jobsplus:warrior/shield_durability_i",
+  "icon": {
+    "id": "minecraft:shield"
+  },
+  "price": 8,
+  "required_level": 25
+}

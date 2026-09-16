@@ -1,0 +1,8 @@
+{
+  "job": "jobsplus:cook",
+  "icon": {
+    "id": "minecraft:smoker"
+  },
+  "price": 5,
+  "required_level": 10
+}

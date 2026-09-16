@@ -1,0 +1,8 @@
+{
+  "job": "jobsplus:rogue",
+  "icon": {
+    "id": "minecraft:leather_boots"
+  },
+  "price": 5,
+  "required_level": 10
+}

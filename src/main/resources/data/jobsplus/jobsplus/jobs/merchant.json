@@ -1,0 +1,8 @@
+{
+  "name": "Merchant",
+  "price": 10,
+  "color": "#2E8B57",
+  "icon": {
+    "id": "minecraft:emerald"
+  }
+}

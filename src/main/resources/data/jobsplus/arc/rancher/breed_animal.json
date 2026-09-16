@@ -1,0 +1,14 @@
+{
+  "holder": {
+    "type": "jobsplus:job",
+    "id": "jobsplus:rancher"
+  },
+  "type": "arc:on_breed_animal",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp",
+      "min": 4,
+      "max": 6
+    }
+  ]
+}

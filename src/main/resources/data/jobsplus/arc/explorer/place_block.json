@@ -1,0 +1,14 @@
+{
+  "holder": {
+    "type": "jobsplus:job",
+    "id": "jobsplus:explorer"
+  },
+  "type": "arc:on_place_block",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp",
+      "min": 1,
+      "max": 2
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:explorer/explorer_exp_boost_i"
+  },
+  "type": "arc:on_place_block",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp_multiplier",
+      "job": "jobsplus:explorer",
+      "multiplier": 1.5
+    }
+  ],
+  "conditions": [
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:explorer/explorer_exp_boost_ii"
+    }
+  ]
+}

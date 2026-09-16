@@ -1,0 +1,8 @@
+{
+  "name": "Beastmaster",
+  "price": 10,
+  "color": "#8B4513",
+  "icon": {
+    "id": "minecraft:bone"
+  }
+}

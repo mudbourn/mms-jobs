@@ -1,0 +1,8 @@
+{
+  "name": "Explorer",
+  "price": 10,
+  "color": "#4682B4",
+  "icon": {
+    "id": "minecraft:compass"
+  }
+}

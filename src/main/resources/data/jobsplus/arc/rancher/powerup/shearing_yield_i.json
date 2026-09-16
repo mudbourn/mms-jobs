@@ -1,0 +1,28 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:rancher/shearing_yield_i"
+  },
+  "type": "arc:on_interact_entity",
+  "rewards": [
+    {
+      "type": "arc:drop_item",
+      "chance": 15,
+      "item": {
+        "id": "minecraft:white_wool"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "arc:items",
+      "items": [
+        "minecraft:shears"
+      ]
+    },
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:rancher/shearing_yield_ii"
+    }
+  ]
+}

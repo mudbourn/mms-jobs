@@ -1,0 +1,8 @@
+{
+  "job": "jobsplus:explorer",
+  "icon": {
+    "id": "minecraft:prismarine_crystals"
+  },
+  "price": 5,
+  "required_level": 10
+}

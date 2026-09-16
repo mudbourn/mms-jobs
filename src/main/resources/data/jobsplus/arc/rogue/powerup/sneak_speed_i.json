@@ -1,0 +1,23 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:rogue/sneak_speed_i"
+  },
+  "type": "arc:on_crouch",
+  "rewards": [
+    {
+      "type": "arc:effect",
+      "effect": {
+        "id": "minecraft:speed",
+        "amplifier": 0,
+        "duration": 60
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:rogue/sneak_speed_ii"
+    }
+  ]
+}

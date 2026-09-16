@@ -1,0 +1,16 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:merchant/trade_bonus_ii"
+  },
+  "type": "arc:on_trade_with_villager",
+  "rewards": [
+    {
+      "type": "arc:drop_item",
+      "chance": 25,
+      "item": {
+        "id": "minecraft:emerald"
+      }
+    }
+  ]
+}

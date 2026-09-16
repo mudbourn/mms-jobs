@@ -1,0 +1,9 @@
+{
+  "job": "jobsplus:merchant",
+  "parent": "jobsplus:merchant/trade_restock_i",
+  "icon": {
+    "id": "minecraft:bell"
+  },
+  "price": 8,
+  "required_level": 25
+}

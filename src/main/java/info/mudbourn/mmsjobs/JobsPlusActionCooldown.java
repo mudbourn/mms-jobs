@@ -46,9 +46,24 @@ public final class JobsPlusActionCooldown {
     /** Cooldown category detected by the ActionData mixin. */
     public enum CooldownCategory { EASY, HARD, NONE }
 
+    /** Damage class of a combat XP grant, for weapon-gated jobs. */
+    public enum WeaponClass { ARROW, MELEE, NONE }
+
     // ── ThreadLocal for cross-mixin communication ────────────────────────
     private static final ThreadLocal<CooldownCategory> CURRENT_CATEGORY =
         ThreadLocal.withInitial(() -> CooldownCategory.NONE);
+
+    // Weapon class for the combat grant in flight, set by the ActionData mixin
+    private static final ThreadLocal<WeaponClass> CURRENT_WEAPON =
+        ThreadLocal.withInitial(() -> WeaponClass.NONE);
+
+    public static void setWeaponClass(WeaponClass weapon) {
+        CURRENT_WEAPON.set(weapon == null ? WeaponClass.NONE : weapon);
+    }
+
+    public static WeaponClass getWeaponClass() {
+        return CURRENT_WEAPON.get();
+    }
 
     public static void setCooldownType(String actionTypeId) {
         CURRENT_CATEGORY.set(categoryFor(actionTypeId));
@@ -62,6 +77,7 @@ public final class JobsPlusActionCooldown {
     public static void clearCooldownType() {
         CURRENT_CATEGORY.remove();
         CURRENT_ACTION_ID.remove();
+        CURRENT_WEAPON.remove();
     }
 
     /** Raw action type id for the grant in flight — watch readout only. */
@@ -119,6 +135,24 @@ public final class JobsPlusActionCooldown {
         "arc:on_throw_item"
     ));
 
+    // Jobs that only earn combat XP from arrows (archer-style)
+    private static final Set<String> RANGED_JOBS = new HashSet<>(Arrays.asList(
+        "jobsplus:hunter"
+    ));
+
+    // Jobs that only earn combat XP from melee or thrown weapons (warrior-style)
+    private static final Set<String> MELEE_JOBS = new HashSet<>(Arrays.asList(
+        "jobsplus:warrior"
+    ));
+
+    private static boolean weaponGating = true;
+
+    // Projectile entity ids to force to melee (warrior), overriding the projectile default
+    private static final Set<String> MELEE_PROJECTILES = new HashSet<>();
+
+    // Non-projectile entity ids to force to arrow (archer), for weapons the class check misses
+    private static final Set<String> ARROW_PROJECTILES = new HashSet<>();
+
     private static boolean loaded = false;
 
     // ── Live cooldown state ──────────────────────────────────────────────
@@ -126,6 +160,49 @@ public final class JobsPlusActionCooldown {
     private static final Map<String, Long> COOLDOWNS = new HashMap<>();
 
     private JobsPlusActionCooldown() {}
+
+    /**
+     * Classifies the weapon behind a combat grant into a {@link WeaponClass}.
+     *
+     * <p>Any projectile counts as ranged (archer) so archers are rewarded for
+     * thrown weapons as well as bows; a direct melee hit counts as warrior.
+     * Explicit entity-id lists win first, so exceptions can be steered by id.</p>
+     *
+     * @param entityId     entity type id of the damage source's direct entity
+     * @param isProjectile whether that entity is a projectile (shot or thrown)
+     * @return the resolved weapon class
+     */
+    public static WeaponClass classifyWeapon(String entityId, boolean isProjectile) {
+        if (!loaded) load();
+        if (entityId != null) {
+            if (MELEE_PROJECTILES.contains(entityId)) return WeaponClass.MELEE;
+            if (ARROW_PROJECTILES.contains(entityId)) return WeaponClass.ARROW;
+        }
+        return isProjectile ? WeaponClass.ARROW : WeaponClass.MELEE;
+    }
+
+    /**
+     * Decides whether a combat XP grant should be blocked because the weapon
+     * used does not match the job's damage type.
+     *
+     * <p>Archer-style jobs earn only from arrows; warrior-style jobs earn only
+     * from melee or thrown weapons. A {@link WeaponClass#NONE} weapon means the
+     * grant is not combat (or carried no damage source), so it is never gated.</p>
+     *
+     * @param jobId  job identifier string (e.g. {@code jobsplus:warrior})
+     * @return {@code true} if the XP should be blocked for this job
+     */
+    public static boolean isWeaponBlocked(String jobId) {
+        if (!loaded) load();
+        if (!weaponGating || jobId == null) return false;
+
+        WeaponClass weapon = CURRENT_WEAPON.get();
+        if (weapon == WeaponClass.NONE) return false;
+
+        if (RANGED_JOBS.contains(jobId)) return weapon != WeaponClass.ARROW;
+        if (MELEE_JOBS.contains(jobId)) return weapon == WeaponClass.ARROW;
+        return false;
+    }
 
     /**
      * Maps an action type identifier string to a cooldown category.
@@ -221,6 +298,32 @@ public final class JobsPlusActionCooldown {
                         HARD_ACTION_TYPES.add(el.getAsString());
                     }
                 }
+
+                if (root.has("weaponGating")) weaponGating = root.get("weaponGating").getAsBoolean();
+                if (root.has("rangedJobs")) {
+                    RANGED_JOBS.clear();
+                    for (var el : root.getAsJsonArray("rangedJobs")) {
+                        RANGED_JOBS.add(el.getAsString());
+                    }
+                }
+                if (root.has("meleeJobs")) {
+                    MELEE_JOBS.clear();
+                    for (var el : root.getAsJsonArray("meleeJobs")) {
+                        MELEE_JOBS.add(el.getAsString());
+                    }
+                }
+                if (root.has("meleeProjectiles")) {
+                    MELEE_PROJECTILES.clear();
+                    for (var el : root.getAsJsonArray("meleeProjectiles")) {
+                        MELEE_PROJECTILES.add(el.getAsString());
+                    }
+                }
+                if (root.has("arrowProjectiles")) {
+                    ARROW_PROJECTILES.clear();
+                    for (var el : root.getAsJsonArray("arrowProjectiles")) {
+                        ARROW_PROJECTILES.add(el.getAsString());
+                    }
+                }
             }
         } catch (Exception e) {
             LOG.warn("[mms_compat] Failed to read Jobs+ XP cooldown config, using defaults", e);
@@ -241,6 +344,24 @@ public final class JobsPlusActionCooldown {
         JsonArray hard = new JsonArray();
         HARD_ACTION_TYPES.stream().sorted().forEach(hard::add);
         root.add("hardActionTypes", hard);
+
+        root.addProperty("weaponGating", weaponGating);
+
+        JsonArray ranged = new JsonArray();
+        RANGED_JOBS.stream().sorted().forEach(ranged::add);
+        root.add("rangedJobs", ranged);
+
+        JsonArray melee = new JsonArray();
+        MELEE_JOBS.stream().sorted().forEach(melee::add);
+        root.add("meleeJobs", melee);
+
+        JsonArray meleeProjectiles = new JsonArray();
+        MELEE_PROJECTILES.stream().sorted().forEach(meleeProjectiles::add);
+        root.add("meleeProjectiles", meleeProjectiles);
+
+        JsonArray arrowProjectiles = new JsonArray();
+        ARROW_PROJECTILES.stream().sorted().forEach(arrowProjectiles::add);
+        root.add("arrowProjectiles", arrowProjectiles);
 
         try (Writer writer = Files.newBufferedWriter(path)) {
             GSON.toJson(root, writer);

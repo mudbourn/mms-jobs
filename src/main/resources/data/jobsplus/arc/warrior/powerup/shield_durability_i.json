@@ -1,0 +1,24 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:warrior/shield_durability_i"
+  },
+  "type": "arc:on_block_with_shield",
+  "rewards": [
+    {
+      "type": "arc:effect",
+      "effect": {
+        "id": "minecraft:regeneration",
+        "amplifier": 0,
+        "duration": 40
+      },
+      "chance": 15
+    }
+  ],
+  "conditions": [
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:warrior/shield_durability_ii"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:merchant/trade_restock_ii"
+  },
+  "type": "arc:on_trade_with_villager",
+  "rewards": [
+    {
+      "type": "arc:effect",
+      "effect": {
+        "id": "minecraft:hero_of_the_village",
+        "amplifier": 1,
+        "duration": 6000
+      }
+    }
+  ]
+}

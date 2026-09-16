@@ -1,0 +1,20 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:beastmaster/beastmaster_exp_boost_i"
+  },
+  "type": "arc:on_tame_animal",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp_multiplier",
+      "job": "jobsplus:beastmaster",
+      "multiplier": 1.5
+    }
+  ],
+  "conditions": [
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:beastmaster/beastmaster_exp_boost_ii"
+    }
+  ]
+}

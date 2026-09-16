@@ -1,0 +1,8 @@
+{
+  "job": "jobsplus:beastmaster",
+  "icon": {
+    "id": "minecraft:golden_apple"
+  },
+  "price": 5,
+  "required_level": 10
+}

@@ -1,0 +1,8 @@
+{
+  "job": "jobsplus:rogue",
+  "icon": {
+    "id": "minecraft:phantom_membrane"
+  },
+  "price": 5,
+  "required_level": 10
+}

@@ -1,0 +1,9 @@
+{
+  "job": "jobsplus:warrior",
+  "icon": {
+    "id": "minecraft:experience_bottle",
+    "count": 1
+  },
+  "price": 5,
+  "required_level": 10
+}
