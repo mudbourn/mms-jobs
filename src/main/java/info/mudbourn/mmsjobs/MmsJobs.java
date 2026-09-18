@@ -21,6 +21,12 @@ public class MmsJobs implements ModInitializer {
             }
         });
 
+        // Explorer "Sprint Efficiency" as a movement-speed attribute, not a Speed effect.
+        // Gated on Jobs+ so SprintEfficiency (which imports Jobs+ types) only loads with it.
+        if (net.fabricmc.loader.api.FabricLoader.getInstance().isModLoaded("jobsplus")) {
+            SprintEfficiency.register();
+        }
+
         // Drop Jobs+ XP cooldown state when a player leaves
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
             JobsPlusActionCooldown.forget(handler.getPlayer().getUUID()));
