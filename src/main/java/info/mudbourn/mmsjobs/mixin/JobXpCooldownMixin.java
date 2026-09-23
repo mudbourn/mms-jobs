@@ -35,21 +35,19 @@ public class JobXpCooldownMixin {
         if (serverPlayer == null || serverPlayer.level().isClientSide()) return experience;
 
         CooldownCategory category = JobsPlusActionCooldown.getCooldownType();
-        String actionId = JobsPlusActionCooldown.getCurrentActionId();
+        String actionId = JobsPlusActionCooldown.isWatching(serverPlayer.getUUID())
+            ? JobsPlusActionCooldown.getCurrentActionId()
+            : null;
         String jobId = jobInstance.getIdentifier().toString();
-
-        // Weapon-gated jobs earn combat XP only from their damage type
         boolean weaponBlocked = JobsPlusActionCooldown.isWeaponBlocked(jobId);
-        // Clean up ThreadLocal after reading
         JobsPlusActionCooldown.clearCooldownType();
 
         if (weaponBlocked) {
             report(serverPlayer, jobId, actionId, category, false, experience, 0.0);
-            return 0.0; // wrong weapon type for this job
+            return 0.0;
         }
 
         boolean unrecognised = category == CooldownCategory.NONE;
-        // NONE means the action type was not recognised — default to HARD
         if (unrecognised) {
             category = CooldownCategory.HARD;
         }
@@ -58,25 +56,26 @@ public class JobXpCooldownMixin {
 
         if (JobsPlusActionCooldown.isOnCooldown(serverPlayer.getUUID(), jobId, category, gameTime)) {
             report(serverPlayer, jobId, actionId, category, unrecognised, experience, 0.0);
-            return 0.0; // block XP entirely
+            return 0.0;
         }
 
-        // Not on cooldown — arm it and let XP through at full value
         JobsPlusActionCooldown.setCooldown(serverPlayer.getUUID(), jobId, category, gameTime);
         report(serverPlayer, jobId, actionId, category, unrecognised, experience, experience);
         return experience;
     }
 
-    /**
-     * Live readout for {@code /mmsjob watch}.  Without this the whole cooldown
-     * path is invisible in-game — which is how the dead capture mixin went
-     * unnoticed for days.
-     */
+    // Live readout for /mmsjob watch
     @org.spongepowered.asm.mixin.Unique
-    private void report(Player player, String jobId, String actionId,
-                        CooldownCategory category, boolean unrecognised,
-                        double in, double out) {
-        if (!JobsPlusActionCooldown.isWatching(player.getUUID())) return;
+    private void report(
+        Player player,
+        String jobId,
+        String actionId,
+        CooldownCategory category,
+        boolean unrecognised,
+        double in,
+        double out
+    ) {
+        if (actionId == null) return;
 
         boolean blocked = out <= 0;
         String job = jobId.contains(":") ? jobId.substring(jobId.indexOf(':') + 1) : jobId;

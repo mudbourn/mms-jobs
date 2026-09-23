@@ -6,12 +6,14 @@ import com.daqem.arc.api.action.result.ActionResult;
 import com.daqem.arc.data.ActionData;
 import info.mudbourn.mmsjobs.JobsPlusActionCooldown;
 import info.mudbourn.mmsjobs.JobsPlusActionCooldown.WeaponClass;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.Projectile;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -20,19 +22,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * Captures the ARC action type before {@code sendToAction()} runs and stores
  * the cooldown category in a ThreadLocal so the companion
  * {@link JobXpCooldownMixin} can read it.
- *
- * <p>This avoids the need for the XP mixin to depend on ARC classes — it only
- * reads the pre-computed {@link JobsPlusActionCooldown.CooldownCategory}.</p>
  */
 @Mixin(ActionData.class)
 public class ActionDataCooldownMixin {
+
+    @Unique
+    private static final Identifier mmsCompat$KILL_ENTITY = Identifier.fromNamespaceAndPath("arc", "on_kill_entity");
+
+    @Unique
+    private static final Identifier mmsCompat$HURT_ENTITY = Identifier.fromNamespaceAndPath("arc", "on_hurt_entity");
 
     @Shadow private IActionType<?> actionType;
 
     @Inject(method = "sendToAction", at = @At("HEAD"))
     private void mmsCompat$captureCooldownType(CallbackInfoReturnable<ActionResult> cir) {
         if (actionType == null) return;
-        String id = actionType.getIdentifier().toString();
+        Identifier id = actionType.getIdentifier();
         JobsPlusActionCooldown.setCooldownType(id);
         JobsPlusActionCooldown.setWeaponClass(mmsCompat$weaponFor(id));
     }
@@ -45,9 +50,9 @@ public class ActionDataCooldownMixin {
      * Non-combat actions and grants without a damage source return
      * {@link WeaponClass#NONE}.</p>
      */
-    @org.spongepowered.asm.mixin.Unique
-    private WeaponClass mmsCompat$weaponFor(String actionTypeId) {
-        if (!actionTypeId.equals("arc:on_kill_entity") && !actionTypeId.equals("arc:on_hurt_entity")) {
+    @Unique
+    private WeaponClass mmsCompat$weaponFor(Identifier actionTypeId) {
+        if (!mmsCompat$KILL_ENTITY.equals(actionTypeId) && !mmsCompat$HURT_ENTITY.equals(actionTypeId)) {
             return WeaponClass.NONE;
         }
         DamageSource source = ((ActionData) (Object) this).getData(IActionDataType.DAMAGE_SOURCE);

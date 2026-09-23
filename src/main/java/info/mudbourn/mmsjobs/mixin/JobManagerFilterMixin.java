@@ -4,11 +4,12 @@ import com.daqem.jobsplus.integration.arc.holder.holders.job.JobInstance;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.resources.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Drops the stock Jobs+ jobs that have no matching Origins Classes class, so the
@@ -20,18 +21,25 @@ import java.util.Set;
 @Mixin(targets = "com.daqem.jobsplus.integration.arc.holder.holders.job.JobManager")
 public class JobManagerFilterMixin {
 
-    @org.spongepowered.asm.mixin.Unique
-    private static final Set<String> mmsCompat$REMOVED_JOBS = Set.of(
-        "jobsplus:fisherman",
-        "jobsplus:enchanter",
-        "jobsplus:digger",
-        "jobsplus:builder"
+    @Unique
+    private static final List<Identifier> mmsCompat$REMOVED_JOBS = List.of(
+        Identifier.fromNamespaceAndPath("jobsplus", "fisherman"),
+        Identifier.fromNamespaceAndPath("jobsplus", "enchanter"),
+        Identifier.fromNamespaceAndPath("jobsplus", "digger"),
+        Identifier.fromNamespaceAndPath("jobsplus", "builder")
     );
 
     @ModifyReturnValue(method = "getJobs", at = @At("RETURN"))
     private Map<Identifier, JobInstance> mmsCompat$filterStockJobs(Map<Identifier, JobInstance> jobs) {
-        Map<Identifier, JobInstance> filtered = new LinkedHashMap<>(jobs);
-        filtered.keySet().removeIf(id -> mmsCompat$REMOVED_JOBS.contains(id.toString()));
-        return filtered;
+        try {
+            for (Identifier id : mmsCompat$REMOVED_JOBS) {
+                jobs.remove(id);
+            }
+            return jobs;
+        } catch (UnsupportedOperationException immutable) {
+            Map<Identifier, JobInstance> filtered = new LinkedHashMap<>(jobs);
+            mmsCompat$REMOVED_JOBS.forEach(filtered::remove);
+            return filtered;
+        }
     }
 }

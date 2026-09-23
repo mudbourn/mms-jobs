@@ -19,11 +19,10 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Per-player-per-job hard-cooldown system for Jobs+ XP grants.
  *
- * Unlike the old debounce (which shaved XP multipliers), this blocks XP
- * entirely while a cooldown is active.  Two tiers:
+ * Blocks XP entirely while a cooldown is active. Two tiers:
  * <ul>
- *   <li><b>EASY</b> (80 ticks / 4 s) — semi-passive actions (swim, crouch, place, plant, till, strip, interact entity)</li>
- *   <li><b>HARD</b> (40 ticks / 2 s) — active actions (kill, break, craft, smelt, enchant, fish, harvest, breed, tame, brew, drink, anvil, grind, throw)</li>
+ *   <li><b>EASY</b> (80 ticks / 4 s) : semi-passive actions (swim, crouch, place, plant, till, strip, interact entity)</li>
+ *   <li><b>HARD</b> (40 ticks / 2 s) : active actions (kill, break, craft, smelt, enchant, fish, harvest, breed, tame, brew, drink, anvil, grind, throw)</li>
  * </ul>
  *
  * The first XP grant for an action category pays full; all subsequent grants
@@ -49,46 +48,57 @@ public final class JobsPlusActionCooldown {
     /** Damage class of a combat XP grant, for weapon-gated jobs. */
     public enum WeaponClass { ARROW, MELEE, NONE }
 
-    // ── ThreadLocal for cross-mixin communication ────────────────────────
-    private static final ThreadLocal<CooldownCategory> CURRENT_CATEGORY =
-        ThreadLocal.withInitial(() -> CooldownCategory.NONE);
+    // Action and weapon for the grant in flight on one thread
+    private static final class Flight {
+        CooldownCategory category = CooldownCategory.NONE;
+        Object actionId;
+        WeaponClass weapon = WeaponClass.NONE;
+    }
 
-    // Weapon class for the combat grant in flight, set by the ActionData mixin
-    private static final ThreadLocal<WeaponClass> CURRENT_WEAPON =
-        ThreadLocal.withInitial(() -> WeaponClass.NONE);
+    // Cooldown slot for one player, job and category
+    private record Key(UUID player, String job, CooldownCategory category) {}
+
+    private static final ThreadLocal<Flight> FLIGHT = ThreadLocal.withInitial(Flight::new);
+
+    // Category per action id, filled on first sight of each id
+    private static final Map<Object, CooldownCategory> CATEGORY_CACHE = new ConcurrentHashMap<>();
 
     public static void setWeaponClass(WeaponClass weapon) {
-        CURRENT_WEAPON.set(weapon == null ? WeaponClass.NONE : weapon);
+        FLIGHT.get().weapon = weapon == null ? WeaponClass.NONE : weapon;
     }
 
     public static WeaponClass getWeaponClass() {
-        return CURRENT_WEAPON.get();
+        return FLIGHT.get().weapon;
     }
 
-    public static void setCooldownType(String actionTypeId) {
-        CURRENT_CATEGORY.set(categoryFor(actionTypeId));
-        CURRENT_ACTION_ID.set(actionTypeId);
+    /**
+     * Records the action type for the grant in flight and resolves its category.
+     *
+     * @param actionTypeId action type id; its {@code toString()} is the config id
+     */
+    public static void setCooldownType(Object actionTypeId) {
+        Flight flight = FLIGHT.get();
+        flight.category = cachedCategoryFor(actionTypeId);
+        flight.actionId = actionTypeId;
     }
 
     public static CooldownCategory getCooldownType() {
-        return CURRENT_CATEGORY.get();
+        return FLIGHT.get().category;
     }
 
     public static void clearCooldownType() {
-        CURRENT_CATEGORY.remove();
-        CURRENT_ACTION_ID.remove();
-        CURRENT_WEAPON.remove();
+        Flight flight = FLIGHT.get();
+        flight.category = CooldownCategory.NONE;
+        flight.actionId = null;
+        flight.weapon = WeaponClass.NONE;
     }
 
-    /** Raw action type id for the grant in flight — watch readout only. */
-    private static final ThreadLocal<String> CURRENT_ACTION_ID = new ThreadLocal<>();
-
+    /** Raw action type id for the grant in flight, for the watch readout only. */
     public static String getCurrentActionId() {
-        String id = CURRENT_ACTION_ID.get();
-        return id == null ? "<none>" : id;
+        Object id = FLIGHT.get().actionId;
+        return id == null ? "<none>" : id.toString();
     }
 
-    // ── XP watch (/mmsjob watch) ─────────────────────────────────────────
     private static final Set<UUID> WATCHERS = ConcurrentHashMap.newKeySet();
 
     /** @return {@code true} if watching is now on for this player. */
@@ -102,7 +112,6 @@ public final class JobsPlusActionCooldown {
         return !WATCHERS.isEmpty() && WATCHERS.contains(playerId);
     }
 
-    // ── Config ───────────────────────────────────────────────────────────
     private static boolean enabled = true;
     private static int easyCooldownTicks = 80;
     private static int hardCooldownTicks = 40;
@@ -153,20 +162,18 @@ public final class JobsPlusActionCooldown {
     // Non-projectile entity ids to force to arrow (archer), for weapons the class check misses
     private static final Set<String> ARROW_PROJECTILES = new HashSet<>();
 
-    private static boolean loaded = false;
+    private static volatile boolean loaded = false;
 
-    // ── Live cooldown state ──────────────────────────────────────────────
-    // Key: "playerUUID|jobId|category", Value: game-time tick when cooldown expires
-    private static final Map<String, Long> COOLDOWNS = new HashMap<>();
+    // Game-time tick at which each cooldown slot expires
+    private static final Map<Key, Long> COOLDOWNS = new HashMap<>();
 
     private JobsPlusActionCooldown() {}
 
     /**
      * Classifies the weapon behind a combat grant into a {@link WeaponClass}.
      *
-     * <p>Any projectile counts as ranged (archer) so archers are rewarded for
-     * thrown weapons as well as bows; a direct melee hit counts as warrior.
-     * Explicit entity-id lists win first, so exceptions can be steered by id.</p>
+     * <p>Any projectile counts as ranged (archer) and a direct melee hit counts
+     * as warrior. Explicit entity-id lists are checked first.</p>
      *
      * @param entityId     entity type id of the damage source's direct entity
      * @param isProjectile whether that entity is a projectile (shot or thrown)
@@ -196,7 +203,7 @@ public final class JobsPlusActionCooldown {
         if (!loaded) load();
         if (!weaponGating || jobId == null) return false;
 
-        WeaponClass weapon = CURRENT_WEAPON.get();
+        WeaponClass weapon = FLIGHT.get().weapon;
         if (weapon == WeaponClass.NONE) return false;
 
         if (RANGED_JOBS.contains(jobId)) return weapon != WeaponClass.ARROW;
@@ -204,25 +211,20 @@ public final class JobsPlusActionCooldown {
         return false;
     }
 
-    /**
-     * Maps an action type identifier string to a cooldown category.
-     */
-    private static CooldownCategory categoryFor(String actionTypeId) {
+    private static CooldownCategory cachedCategoryFor(Object actionTypeId) {
         if (actionTypeId == null) return CooldownCategory.NONE;
+        if (!loaded) load();
+        return CATEGORY_CACHE.computeIfAbsent(actionTypeId, id -> categoryFor(id.toString()));
+    }
+
+    private static CooldownCategory categoryFor(String actionTypeId) {
         if (EASY_ACTION_TYPES.contains(actionTypeId)) return CooldownCategory.EASY;
         if (HARD_ACTION_TYPES.contains(actionTypeId)) return CooldownCategory.HARD;
         return CooldownCategory.NONE;
     }
 
-    /**
-     * Returns the cooldown duration in ticks for the given category.
-     */
     private static int cooldownTicksFor(CooldownCategory category) {
-        return switch (category) {
-            case EASY -> easyCooldownTicks;
-            case HARD -> hardCooldownTicks;
-            default -> hardCooldownTicks; // NONE defaults to HARD
-        };
+        return category == CooldownCategory.EASY ? easyCooldownTicks : hardCooldownTicks;
     }
 
     /**
@@ -239,10 +241,8 @@ public final class JobsPlusActionCooldown {
         if (!enabled) return false;
         if (category == CooldownCategory.NONE) category = CooldownCategory.HARD;
 
-        String key = playerId + "|" + jobId + "|" + category.name();
-        Long expiry = COOLDOWNS.get(key);
+        Long expiry = COOLDOWNS.get(new Key(playerId, jobId, category));
         if (expiry == null) return false;
-        // Handle tick wrap-around
         return gameTime < expiry && gameTime >= 0;
     }
 
@@ -254,17 +254,14 @@ public final class JobsPlusActionCooldown {
         if (!enabled) return;
         if (category == CooldownCategory.NONE) category = CooldownCategory.HARD;
 
-        String key = playerId + "|" + jobId + "|" + category.name();
-        COOLDOWNS.put(key, gameTime + cooldownTicksFor(category));
+        COOLDOWNS.put(new Key(playerId, jobId, category), gameTime + cooldownTicksFor(category));
     }
 
-    /** Drops all cooldown state for a player — call on disconnect. */
+    /** Drops all cooldown state for a player; call on disconnect. */
     public static void forget(UUID playerId) {
-        COOLDOWNS.keySet().removeIf(key -> key.startsWith(playerId + "|"));
+        COOLDOWNS.keySet().removeIf(key -> key.player().equals(playerId));
         WATCHERS.remove(playerId);
     }
-
-    // ── Config I/O ───────────────────────────────────────────────────────
 
     private static synchronized void load() {
         if (loaded) return;
