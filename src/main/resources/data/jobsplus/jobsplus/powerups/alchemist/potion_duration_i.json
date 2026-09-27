@@ -1,0 +1,8 @@
+{
+  "job": "jobsplus:alchemist",
+  "icon": {
+    "id": "minecraft:glowstone_dust"
+  },
+  "price": 5,
+  "required_level": 10
+}

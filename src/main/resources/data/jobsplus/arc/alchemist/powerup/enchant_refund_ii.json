@@ -1,0 +1,14 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:alchemist/enchant_refund_ii"
+  },
+  "type": "arc:on_enchant_item",
+  "rewards": [
+    {
+      "type": "arc:exp",
+      "min": 6,
+      "max": 10
+    }
+  ]
+}

@@ -3,7 +3,7 @@
     "type": "jobsplus:powerup",
     "id": "jobsplus:explorer/explorer_exp_boost_i"
   },
-  "type": "arc:on_place_block",
+  "type": "jobsplus:on_job_exp",
   "rewards": [
     {
       "type": "jobsplus:job_exp_multiplier",

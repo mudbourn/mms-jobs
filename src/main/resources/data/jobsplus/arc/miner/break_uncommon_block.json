@@ -1,0 +1,40 @@
+{
+  "holder": {
+    "type": "jobsplus:job",
+    "id": "jobsplus:miner"
+  },
+  "type": "arc:on_break_block",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp",
+      "min": 2,
+      "max": 4
+    }
+  ],
+  "conditions": [
+    {
+      "type": "arc:blocks",
+      "blocks": [
+        "#minecraft:mineable/pickaxe"
+      ]
+    },
+    {
+      "type": "arc:is_ore",
+      "inverted": true
+    },
+    {
+      "type": "arc:blocks",
+      "inverted": true,
+      "blocks": [
+        "minecraft:stone",
+        "minecraft:cobblestone",
+        "minecraft:granite",
+        "minecraft:andesite",
+        "minecraft:diorite",
+        "minecraft:deepslate",
+        "minecraft:netherrack",
+        "minecraft:end_stone"
+      ]
+    }
+  ]
+}

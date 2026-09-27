@@ -10,5 +10,15 @@
       "min": 4,
       "max": 6
     }
+  ],
+  "conditions": [
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:rancher/breeding_xp_i"
+    },
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:rancher/breeding_xp_ii"
+    }
   ]
 }

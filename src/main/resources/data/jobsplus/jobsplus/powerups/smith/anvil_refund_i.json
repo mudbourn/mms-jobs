@@ -1,0 +1,8 @@
+{
+  "job": "jobsplus:smith",
+  "icon": {
+    "id": "minecraft:anvil"
+  },
+  "price": 5,
+  "required_level": 10
+}

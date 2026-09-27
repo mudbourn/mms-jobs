@@ -1,0 +1,19 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:farmer/crop_yield_ii"
+  },
+  "type": "arc:on_harvest_crop",
+  "rewards": [
+    {
+      "type": "arc:block_drop_multiplier",
+      "chance": 20,
+      "multiplier": 2
+    }
+  ],
+  "conditions": [
+    {
+      "type": "arc:crop_fully_grown"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "holder": {
+    "type": "jobsplus:job",
+    "id": "jobsplus:lumberjack"
+  },
+  "type": "arc:on_break_block",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp",
+      "min": 2,
+      "max": 4
+    }
+  ],
+  "conditions": [
+    {
+      "type": "arc:block_hardness",
+      "min": 2
+    },
+    {
+      "type": "arc:blocks",
+      "blocks": [
+        "#minecraft:mineable/axe"
+      ]
+    }
+  ]
+}

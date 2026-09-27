@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:farmer",
+  "parent": "jobsplus:farmer/hoe_durability_i",
+  "icon": {
+    "id": "minecraft:iron_hoe",
+    "count": 2
+  },
+  "price": 8,
+  "required_level": 25
+}

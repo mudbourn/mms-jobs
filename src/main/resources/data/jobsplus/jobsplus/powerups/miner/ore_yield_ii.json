@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:miner",
+  "parent": "jobsplus:miner/ore_yield_i",
+  "icon": {
+    "id": "minecraft:raw_iron",
+    "count": 2
+  },
+  "price": 8,
+  "required_level": 25
+}

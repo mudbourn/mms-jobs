@@ -1,0 +1,8 @@
+{
+  "job": "jobsplus:farmer",
+  "icon": {
+    "id": "experience_bottle"
+  },
+  "price": 5,
+  "required_level": 10
+}

@@ -3,7 +3,7 @@
     "type": "jobsplus:powerup",
     "id": "jobsplus:cook/cook_exp_boost_ii"
   },
-  "type": "arc:on_smelt_item",
+  "type": "jobsplus:on_job_exp",
   "rewards": [
     {
       "type": "jobsplus:job_exp_multiplier",

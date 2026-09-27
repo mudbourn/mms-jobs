@@ -7,7 +7,7 @@
   "rewards": [
     {
       "type": "arc:cancel_action",
-      "chance": 20
+      "chance": 25
     }
   ],
   "conditions": [
@@ -16,18 +16,6 @@
       "items": [
         "#minecraft:swords"
       ]
-    },
-    {
-      "type": "jobsplus:powerup_not_active",
-      "powerup": "jobsplus:warrior/sword_unbreaking_iii"
-    },
-    {
-      "type": "jobsplus:powerup_not_active",
-      "powerup": "jobsplus:warrior/sword_unbreaking_iv"
-    },
-    {
-      "type": "jobsplus:powerup_not_active",
-      "powerup": "jobsplus:warrior/sword_unbreaking_v"
     }
   ]
 }

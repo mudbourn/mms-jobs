@@ -1,0 +1,8 @@
+{
+  "name": "Alchemist",
+  "price": 10,
+  "color": "#00AEFF",
+  "icon": {
+    "id": "minecraft:brewing_stand"
+  }
+}

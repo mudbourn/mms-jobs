@@ -1,8 +1,0 @@
-{
-  "job": "jobsplus:warrior",
-  "icon": {
-    "id": "minecraft:iron_chestplate"
-  },
-  "price": 5,
-  "required_level": 10
-}

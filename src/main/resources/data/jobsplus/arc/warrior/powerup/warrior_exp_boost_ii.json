@@ -3,7 +3,7 @@
     "type": "jobsplus:powerup",
     "id": "jobsplus:warrior/warrior_exp_boost_ii"
   },
-  "type": "arc:on_kill_entity",
+  "type": "jobsplus:on_job_exp",
   "rewards": [
     {
       "type": "jobsplus:job_exp_multiplier",

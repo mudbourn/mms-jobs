@@ -1,0 +1,8 @@
+{
+  "job": "jobsplus:miner",
+  "icon": {
+    "id": "minecraft:raw_iron"
+  },
+  "price": 5,
+  "required_level": 10
+}

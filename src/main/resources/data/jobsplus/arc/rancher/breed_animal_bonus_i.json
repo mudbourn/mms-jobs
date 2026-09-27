@@ -1,0 +1,24 @@
+{
+  "holder": {
+    "type": "jobsplus:job",
+    "id": "jobsplus:rancher"
+  },
+  "type": "arc:on_breed_animal",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp",
+      "min": 5,
+      "max": 7.5
+    }
+  ],
+  "conditions": [
+    {
+      "type": "jobsplus:has_powerup_activated",
+      "powerup": "jobsplus:rancher/breeding_xp_i"
+    },
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:rancher/breeding_xp_ii"
+    }
+  ]
+}

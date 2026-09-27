@@ -1,0 +1,22 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:miner/ore_yield_ii"
+  },
+  "type": "arc:on_break_block",
+  "rewards": [
+    {
+      "type": "arc:block_drop_multiplier",
+      "chance": 20,
+      "multiplier": 2
+    }
+  ],
+  "conditions": [
+    {
+      "type": "arc:is_ore"
+    },
+    {
+      "type": "arc:not_in_block_pos_cache"
+    }
+  ]
+}

@@ -6,12 +6,9 @@
   "type": "arc:on_eat",
   "rewards": [
     {
-      "type": "arc:effect",
-      "effect": {
-        "id": "minecraft:saturation",
-        "amplifier": 1,
-        "duration": 1
-      }
+      "type": "arc:feed",
+      "food_level": 1,
+      "saturation": 2.5
     }
   ]
 }

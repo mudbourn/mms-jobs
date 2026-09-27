@@ -1,0 +1,8 @@
+{
+  "name": "Smith",
+  "price": 10,
+  "color": "#B22222",
+  "icon": {
+    "id": "minecraft:anvil"
+  }
+}

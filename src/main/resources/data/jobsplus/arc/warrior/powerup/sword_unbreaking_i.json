@@ -7,7 +7,7 @@
   "rewards": [
     {
       "type": "arc:cancel_action",
-      "chance": 10
+      "chance": 15
     }
   ],
   "conditions": [
@@ -20,18 +20,6 @@
     {
       "type": "jobsplus:powerup_not_active",
       "powerup": "jobsplus:warrior/sword_unbreaking_ii"
-    },
-    {
-      "type": "jobsplus:powerup_not_active",
-      "powerup": "jobsplus:warrior/sword_unbreaking_iii"
-    },
-    {
-      "type": "jobsplus:powerup_not_active",
-      "powerup": "jobsplus:warrior/sword_unbreaking_iv"
-    },
-    {
-      "type": "jobsplus:powerup_not_active",
-      "powerup": "jobsplus:warrior/sword_unbreaking_v"
     }
   ]
 }

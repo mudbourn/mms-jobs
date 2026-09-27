@@ -1,0 +1,14 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:smith/anvil_refund_ii"
+  },
+  "type": "arc:on_use_anvil",
+  "rewards": [
+    {
+      "type": "arc:exp",
+      "min": 6,
+      "max": 10
+    }
+  ]
+}

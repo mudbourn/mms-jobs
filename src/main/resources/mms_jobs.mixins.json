@@ -7,8 +7,11 @@
     "JobLevelUpMessageMixin",
     "JobXpCooldownMixin",
     "ActionDataCooldownMixin",
-    "JobManagerFilterMixin",
-    "JobsToolsMobEquipmentMixin"
+    "JobsToolsMobEquipmentMixin",
+    "FurnaceCookingSpeedMixin",
+    "MobAwarenessMixin",
+    "ShearingYieldMixin",
+    "StockJobsFilterMixin"
   ],
   "injectors": {
     "defaultRequire": 1
