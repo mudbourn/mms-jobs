@@ -39,8 +39,8 @@ public class JobXpCooldownMixin {
             ? JobsPlusActionCooldown.getCurrentActionId()
             : null;
         String jobId = jobInstance.getIdentifier().toString();
-        boolean weaponBlocked = JobsPlusActionCooldown.isWeaponBlocked(jobId);
-        JobsPlusActionCooldown.clearCooldownType();
+        boolean weaponBlocked = JobsPlusActionCooldown.isWeaponBlocked(jobId)
+            || JobsPlusActionCooldown.isPvpDenied();
 
         if (weaponBlocked) {
             report(serverPlayer, jobId, actionId, category, false, experience, 0.0);

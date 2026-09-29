@@ -46,13 +46,14 @@ public final class JobsPlusActionCooldown {
     public enum CooldownCategory { EASY, HARD, NONE }
 
     /** Damage class of a combat XP grant, for weapon-gated jobs. */
-    public enum WeaponClass { ARROW, MELEE, NONE }
+    public enum WeaponClass { ARROW, MELEE, THROWN, UNARMED, NONE }
 
     // Action and weapon for the grant in flight on one thread
     private static final class Flight {
         CooldownCategory category = CooldownCategory.NONE;
         Object actionId;
         WeaponClass weapon = WeaponClass.NONE;
+        boolean pvpDenied;
     }
 
     // Cooldown slot for one player, job and category
@@ -65,6 +66,14 @@ public final class JobsPlusActionCooldown {
 
     public static void setWeaponClass(WeaponClass weapon) {
         FLIGHT.get().weapon = weapon == null ? WeaponClass.NONE : weapon;
+    }
+
+    public static void setPvpDenied(boolean denied) {
+        FLIGHT.get().pvpDenied = denied;
+    }
+
+    public static boolean isPvpDenied() {
+        return FLIGHT.get().pvpDenied;
     }
 
     public static WeaponClass getWeaponClass() {
@@ -91,6 +100,7 @@ public final class JobsPlusActionCooldown {
         flight.category = CooldownCategory.NONE;
         flight.actionId = null;
         flight.weapon = WeaponClass.NONE;
+        flight.pvpDenied = false;
     }
 
     /** Raw action type id for the grant in flight, for the watch readout only. */
@@ -129,6 +139,7 @@ public final class JobsPlusActionCooldown {
     private static final Set<String> HARD_ACTION_TYPES = new HashSet<>(Arrays.asList(
         "arc:on_kill_entity",
         "arc:on_hurt_entity",
+        "arc:on_hurt_player",
         "arc:on_break_block",
         "arc:on_craft_item",
         "arc:on_smelt_item",
@@ -162,6 +173,12 @@ public final class JobsPlusActionCooldown {
     // Non-projectile entity ids to force to arrow (archer), for weapons the class check misses
     private static final Set<String> ARROW_PROJECTILES = new HashSet<>();
 
+    // Thrown weapon entity ids that count for both archer and warrior
+    private static final Set<String> THROWN_PROJECTILES = new HashSet<>(Arrays.asList(
+        "minecraft:trident",
+        "mms_weapons:thrown_weapon"
+    ));
+
     private static volatile boolean loaded = false;
 
     // Game-time tick at which each cooldown slot expires
@@ -172,29 +189,34 @@ public final class JobsPlusActionCooldown {
     /**
      * Classifies the weapon behind a combat grant into a {@link WeaponClass}.
      *
-     * <p>Any projectile counts as ranged (archer) and a direct melee hit counts
-     * as warrior. Explicit entity-id lists are checked first.</p>
+     * <p>Explicit entity-id lists are checked first. A thrown weapon counts
+     * for both archer and warrior, a shot arrow counts as archer, a melee hit
+     * counts as warrior, and any other projectile counts as unarmed.</p>
      *
      * @param entityId     entity type id of the damage source's direct entity
-     * @param isProjectile whether that entity is a projectile (shot or thrown)
+     * @param isArrow      whether that entity is a shot arrow
+     * @param isProjectile whether that entity is any projectile
      * @return the resolved weapon class
      */
-    public static WeaponClass classifyWeapon(String entityId, boolean isProjectile) {
+    public static WeaponClass classifyWeapon(String entityId, boolean isArrow, boolean isProjectile) {
         if (!loaded) load();
         if (entityId != null) {
+            if (THROWN_PROJECTILES.contains(entityId)) return WeaponClass.THROWN;
             if (MELEE_PROJECTILES.contains(entityId)) return WeaponClass.MELEE;
             if (ARROW_PROJECTILES.contains(entityId)) return WeaponClass.ARROW;
         }
-        return isProjectile ? WeaponClass.ARROW : WeaponClass.MELEE;
+        if (isArrow) return WeaponClass.ARROW;
+        return isProjectile ? WeaponClass.UNARMED : WeaponClass.MELEE;
     }
 
     /**
      * Decides whether a combat XP grant should be blocked because the weapon
      * used does not match the job's damage type.
      *
-     * <p>Archer-style jobs earn only from arrows; warrior-style jobs earn only
-     * from melee or thrown weapons. A {@link WeaponClass#NONE} weapon means the
-     * grant is not combat (or carried no damage source), so it is never gated.</p>
+     * <p>Archer-style jobs earn only from arrows and thrown weapons;
+     * warrior-style jobs earn only from a held melee weapon or a thrown weapon.
+     * Fists and stray projectiles earn neither. A {@link WeaponClass#NONE}
+     * weapon means the grant is not combat, so it is never gated.</p>
      *
      * @param jobId  job identifier string (e.g. {@code jobsplus:warrior})
      * @return {@code true} if the XP should be blocked for this job
@@ -204,10 +226,10 @@ public final class JobsPlusActionCooldown {
         if (!weaponGating || jobId == null) return false;
 
         WeaponClass weapon = FLIGHT.get().weapon;
-        if (weapon == WeaponClass.NONE) return false;
+        if (weapon == WeaponClass.NONE || weapon == WeaponClass.THROWN) return false;
 
         if (RANGED_JOBS.contains(jobId)) return weapon != WeaponClass.ARROW;
-        if (MELEE_JOBS.contains(jobId)) return weapon == WeaponClass.ARROW;
+        if (MELEE_JOBS.contains(jobId)) return weapon != WeaponClass.MELEE;
         return false;
     }
 
@@ -315,6 +337,12 @@ public final class JobsPlusActionCooldown {
                         MELEE_PROJECTILES.add(el.getAsString());
                     }
                 }
+                if (root.has("thrownProjectiles")) {
+                    THROWN_PROJECTILES.clear();
+                    for (var el : root.getAsJsonArray("thrownProjectiles")) {
+                        THROWN_PROJECTILES.add(el.getAsString());
+                    }
+                }
                 if (root.has("arrowProjectiles")) {
                     ARROW_PROJECTILES.clear();
                     for (var el : root.getAsJsonArray("arrowProjectiles")) {
@@ -359,6 +387,10 @@ public final class JobsPlusActionCooldown {
         JsonArray arrowProjectiles = new JsonArray();
         ARROW_PROJECTILES.stream().sorted().forEach(arrowProjectiles::add);
         root.add("arrowProjectiles", arrowProjectiles);
+
+        JsonArray thrownProjectiles = new JsonArray();
+        THROWN_PROJECTILES.stream().sorted().forEach(thrownProjectiles::add);
+        root.add("thrownProjectiles", thrownProjectiles);
 
         try (Writer writer = Files.newBufferedWriter(path)) {
             GSON.toJson(root, writer);
