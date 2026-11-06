@@ -12,7 +12,13 @@
     "FurnaceCookingSpeedMixin",
     "MobAwarenessMixin",
     "ShearingYieldMixin",
-    "StockJobsFilterMixin"
+    "StockJobsFilterMixin",
+    "ShieldBlockingMixin",
+    "FarmersDelightPotResultMixin",
+    "FarmersDelightPotServeMixin",
+    "FarmersDelightSkilletMixin",
+    "FarmersDelightStoveMixin",
+    "FarmersDelightCuttingBoardMixin"
   ],
   "injectors": {
     "defaultRequire": 1

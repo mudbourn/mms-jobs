@@ -1,0 +1,77 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "basicweapons:wooden_glaive",
+      "required": false
+    },
+    {
+      "id": "basicweapons:wooden_quarterstaff",
+      "required": false
+    },
+    {
+      "id": "basicweapons:stone_glaive",
+      "required": false
+    },
+    {
+      "id": "basicweapons:stone_quarterstaff",
+      "required": false
+    },
+    {
+      "id": "basicweapons:copper_glaive",
+      "required": false
+    },
+    {
+      "id": "basicweapons:copper_quarterstaff",
+      "required": false
+    },
+    {
+      "id": "basicweapons:tin_glaive",
+      "required": false
+    },
+    {
+      "id": "basicweapons:tin_quarterstaff",
+      "required": false
+    },
+    {
+      "id": "basicweapons:bronze_glaive",
+      "required": false
+    },
+    {
+      "id": "basicweapons:bronze_quarterstaff",
+      "required": false
+    },
+    {
+      "id": "basicweapons:iron_glaive",
+      "required": false
+    },
+    {
+      "id": "basicweapons:iron_quarterstaff",
+      "required": false
+    },
+    {
+      "id": "basicweapons:golden_glaive",
+      "required": false
+    },
+    {
+      "id": "basicweapons:golden_quarterstaff",
+      "required": false
+    },
+    {
+      "id": "basicweapons:diamond_glaive",
+      "required": false
+    },
+    {
+      "id": "basicweapons:diamond_quarterstaff",
+      "required": false
+    },
+    {
+      "id": "basicweapons:netherite_glaive",
+      "required": false
+    },
+    {
+      "id": "basicweapons:netherite_quarterstaff",
+      "required": false
+    }
+  ]
+}

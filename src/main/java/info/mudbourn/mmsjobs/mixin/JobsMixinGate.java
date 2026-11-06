@@ -7,15 +7,16 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Gates the Jobs+ level-up mixin on the mod being loaded.
+ * Applies mixins only when Jobs+ is loaded, and Farmer's Delight hooks only when it is too.
  */
 public class JobsMixinGate implements IMixinConfigPlugin {
 
     private final boolean present = FabricLoader.getInstance().isModLoaded("jobsplus");
+    private final boolean farmersDelight = FabricLoader.getInstance().isModLoaded("farmersdelight");
 
     @Override public void onLoad(String mixinPackage) {}
     @Override public String getRefMapperConfig() { return null; }
-    @Override public boolean shouldApplyMixin(String targetClassName, String mixinClassName) { return present; }
+    @Override public boolean shouldApplyMixin(String targetClassName, String mixinClassName) { return present && (farmersDelight || !mixinClassName.contains("FarmersDelight")); }
     @Override public void acceptTargets(Set<String> myTargets, Set<String> otherTargets) {}
     @Override public List<String> getMixins() { return List.of(); }
     @Override public void preApply(String targetClassName, org.objectweb.asm.tree.ClassNode targetClass, String mixinClassName, org.spongepowered.asm.mixin.extensibility.IMixinInfo mixinInfo) {}
