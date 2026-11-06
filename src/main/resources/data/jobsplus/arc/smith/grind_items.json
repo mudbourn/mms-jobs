@@ -10,6 +10,11 @@
       "chance": 100,
       "min": 4,
       "max": 6
+    },
+    {
+      "type": "arc:exp",
+      "min": 0,
+      "max": 1
     }
   ]
 }

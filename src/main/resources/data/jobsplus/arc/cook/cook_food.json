@@ -9,6 +9,11 @@
       "type": "jobsplus:job_exp",
       "min": 2,
       "max": 4
+    },
+    {
+      "type": "arc:exp",
+      "min": 0,
+      "max": 1
     }
   ]
 }

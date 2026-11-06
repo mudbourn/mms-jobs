@@ -54,6 +54,7 @@ public final class JobsPlusActionCooldown {
         Object actionId;
         WeaponClass weapon = WeaponClass.NONE;
         boolean pvpDenied;
+        final Map<String, Boolean> paidJobs = new HashMap<>();
     }
 
     // Cooldown slot for one player, job and category
@@ -70,6 +71,19 @@ public final class JobsPlusActionCooldown {
 
     public static void setPvpDenied(boolean denied) {
         FLIGHT.get().pvpDenied = denied;
+    }
+
+    // Records whether the job XP grant for a job was paid in the action in flight
+    public static void recordJobGrant(String jobId, boolean paid) {
+        FLIGHT.get().paidJobs.put(jobId, paid);
+    }
+
+    // Whether the vanilla XP reward of a job's action may pay out now
+    public static boolean allowsVanillaXp(String jobId) {
+        if (!loaded) load();
+        if (!vanillaXp) return false;
+        if (!enabled) return true;
+        return jobId != null && Boolean.TRUE.equals(FLIGHT.get().paidJobs.get(jobId));
     }
 
     public static boolean isPvpDenied() {
@@ -101,6 +115,7 @@ public final class JobsPlusActionCooldown {
         flight.actionId = null;
         flight.weapon = WeaponClass.NONE;
         flight.pvpDenied = false;
+        flight.paidJobs.clear();
     }
 
     /** Raw action type id for the grant in flight, for the watch readout only. */
@@ -123,6 +138,7 @@ public final class JobsPlusActionCooldown {
     }
 
     private static boolean enabled = true;
+    private static boolean vanillaXp = true;
     private static int easyCooldownTicks = 80;
     private static int hardCooldownTicks = 40;
 
@@ -302,6 +318,7 @@ public final class JobsPlusActionCooldown {
                 if (root == null) return;
 
                 if (root.has("enabled")) enabled = root.get("enabled").getAsBoolean();
+                if (root.has("vanillaXp")) vanillaXp = root.get("vanillaXp").getAsBoolean();
                 if (root.has("easyCooldownTicks")) easyCooldownTicks = root.get("easyCooldownTicks").getAsInt();
                 if (root.has("hardCooldownTicks")) hardCooldownTicks = root.get("hardCooldownTicks").getAsInt();
 
@@ -359,6 +376,7 @@ public final class JobsPlusActionCooldown {
         Files.createDirectories(path.getParent());
         JsonObject root = new JsonObject();
         root.addProperty("enabled", enabled);
+        root.addProperty("vanillaXp", vanillaXp);
         root.addProperty("easyCooldownTicks", easyCooldownTicks);
         root.addProperty("hardCooldownTicks", hardCooldownTicks);
 

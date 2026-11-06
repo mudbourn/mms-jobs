@@ -43,6 +43,7 @@ public class JobXpCooldownMixin {
             || JobsPlusActionCooldown.isPvpDenied();
 
         if (weaponBlocked) {
+            JobsPlusActionCooldown.recordJobGrant(jobId, false);
             report(serverPlayer, jobId, actionId, category, false, experience, 0.0);
             return 0.0;
         }
@@ -55,11 +56,13 @@ public class JobXpCooldownMixin {
         long gameTime = serverPlayer.level().getGameTime();
 
         if (JobsPlusActionCooldown.isOnCooldown(serverPlayer.getUUID(), jobId, category, gameTime)) {
+            JobsPlusActionCooldown.recordJobGrant(jobId, false);
             report(serverPlayer, jobId, actionId, category, unrecognised, experience, 0.0);
             return 0.0;
         }
 
         JobsPlusActionCooldown.setCooldown(serverPlayer.getUUID(), jobId, category, gameTime);
+        JobsPlusActionCooldown.recordJobGrant(jobId, true);
         report(serverPlayer, jobId, actionId, category, unrecognised, experience, experience);
         return experience;
     }
