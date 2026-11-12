@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "mms_jobs:item/respec_badge"
+    "layer0": "mms_jobs:item/orb_of_occupation"
   }
 }

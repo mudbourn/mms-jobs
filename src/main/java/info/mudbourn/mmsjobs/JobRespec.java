@@ -77,7 +77,7 @@ public final class JobRespec {
         if (!(player instanceof JobsPlayer jobsPlayer)) return;
 
         Totals totals = totals(jobsPlayer);
-        player.sendSystemMessage(Component.literal("Badge of Renewal: use again within 10 s to confirm.")
+        player.sendSystemMessage(Component.literal("Orb of Occupation: use again within 10 s to confirm.")
             .withStyle(ChatFormatting.GOLD));
         player.sendSystemMessage(Component.literal(String.format(
             "You give up %d job(s) and your class. You keep %.0f coins and %.0f job XP%s.",
@@ -194,7 +194,7 @@ public final class JobRespec {
 
                 grantExperience(job, credit.experience / credit.slots);
                 player.sendSystemMessage(Component.literal(String.format(
-                    "%s received %.0f job XP from your Badge of Renewal.",
+                    "%s received %.0f job XP from your Orb of Occupation.",
                     job.getJobInstance().getName().getString(),
                     credit.experience / credit.slots
                 )).withStyle(ChatFormatting.AQUA));

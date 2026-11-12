@@ -22,13 +22,13 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class RespecBadge extends Item {
+public class OccupationOrb extends Item {
     private static final long CONFIRM_WINDOW_TICKS = 200;
     private static final Map<UUID, Long> PENDING_CONFIRM = new ConcurrentHashMap<>();
 
     public static Item ITEM;
 
-    public RespecBadge(Properties properties) {
+    public OccupationOrb(Properties properties) {
         super(properties);
     }
 
@@ -36,12 +36,12 @@ public class RespecBadge extends Item {
     public static void register() {
         ResourceKey<Item> key = ResourceKey.create(
             Registries.ITEM,
-            Identifier.fromNamespaceAndPath("mms_jobs", "respec_badge")
+            Identifier.fromNamespaceAndPath("mms_jobs", "orb_of_occupation")
         );
         ITEM = Registry.register(
             BuiltInRegistries.ITEM,
             key,
-            new RespecBadge(new Item.Properties().setId(key).stacksTo(16).rarity(Rarity.EPIC))
+            new OccupationOrb(new Item.Properties().setId(key).stacksTo(16).rarity(Rarity.EPIC))
         );
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES)
             .register(entries -> entries.accept(ITEM));

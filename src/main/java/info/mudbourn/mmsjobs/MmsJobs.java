@@ -14,7 +14,7 @@ public class MmsJobs implements ModInitializer {
     @Override
     public void onInitialize() {
         JobsToolsEmbargo.register();
-        RespecBadge.register();
+        OccupationOrb.register();
 
         if (FabricLoader.getInstance().isModLoaded("jobsplus")) {
             CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
