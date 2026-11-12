@@ -1,0 +1,8 @@
+{
+  "job": "jobsplus:beastmaster",
+  "icon": {
+    "id": "minecraft:lead"
+  },
+  "price": 5,
+  "required_level": 15
+}

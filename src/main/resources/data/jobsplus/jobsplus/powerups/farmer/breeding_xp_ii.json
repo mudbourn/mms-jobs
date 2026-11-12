@@ -1,0 +1,9 @@
+{
+  "job": "jobsplus:farmer",
+  "parent": "jobsplus:farmer/breeding_xp_i",
+  "icon": {
+    "id": "minecraft:wheat"
+  },
+  "price": 10,
+  "required_level": 50
+}

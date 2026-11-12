@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:merchant",
+  "parent": "jobsplus:merchant/trade_bonus_ii",
+  "icon": {
+    "id": "minecraft:emerald",
+    "count": 3
+  },
+  "price": 16,
+  "required_level": 90
+}

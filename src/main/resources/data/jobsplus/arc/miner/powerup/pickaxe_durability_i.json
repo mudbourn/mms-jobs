@@ -20,6 +20,13 @@
     {
       "type": "jobsplus:powerup_not_active",
       "powerup": "jobsplus:miner/pickaxe_durability_ii"
+    },
+    {
+      "type": "arc:scoreboard",
+      "objective": "mms_jobs_class",
+      "min": 9,
+      "max": 9,
+      "inverted": true
     }
   ]
 }

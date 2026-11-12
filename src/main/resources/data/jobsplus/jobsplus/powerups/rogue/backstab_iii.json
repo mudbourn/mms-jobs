@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:rogue",
+  "parent": "jobsplus:rogue/backstab_ii",
+  "icon": {
+    "id": "minecraft:iron_sword",
+    "count": 3
+  },
+  "price": 16,
+  "required_level": 90
+}

@@ -24,6 +24,11 @@ dependencies {
     // compile classpath alongside it. Both are supplied at runtime by the pack.
     modCompileOnly files("libs/jobsplus-19.1.0-fabric.jar")
     modCompileOnly files("libs/arc-19.1.1-fabric.jar")
+    modCompileOnly files("libs/yamlconfig-19.1.2-fabric.jar")
+    modCompileOnly files("libs/Origins-Legacy-1.12.16+1.21.11.jar")
+    modCompileOnly files("libs/Calio-Legacy-1.11.2+1.21.11.jar")
+    modCompileOnly files("libs/cardinal-components-base-7.3.1.jar")
+    modCompileOnly files("libs/cardinal-components-entity-7.3.1.jar")
 }
 
 tasks.withType(JavaCompile).configureEach {

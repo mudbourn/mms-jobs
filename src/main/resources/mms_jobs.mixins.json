@@ -18,7 +18,20 @@
     "FarmersDelightPotServeMixin",
     "FarmersDelightSkilletMixin",
     "FarmersDelightStoveMixin",
-    "FarmersDelightCuttingBoardMixin"
+    "FarmersDelightCuttingBoardMixin",
+    "LootGeneratedMixin",
+    "PiglinBarterMixin",
+    "VillagerHaggleMixin",
+    "BackstabMixin",
+    "DragonTamingMixin",
+    "DragonDocileMixin",
+    "EnchantBoostMixin",
+    "TimberPlanksMixin",
+    "SmithRefundMixin",
+    "SmeltingYieldMixin",
+    "GrindstoneMenuAccessor",
+    "GrindstoneExtractMixin",
+    "OrbClassLockMixin"
   ],
   "injectors": {
     "defaultRequire": 1

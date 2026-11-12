@@ -1,0 +1,18 @@
+{
+  "holder": {
+    "type": "jobsplus:job",
+    "id": "jobsplus:alchemist"
+  },
+  "type": "arc:on_enchant_item",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp",
+      "min": 3,
+      "max": 6
+    },
+    {
+      "type": "arc:exp",
+      "max": 1
+    }
+  ]
+}

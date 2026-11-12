@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:alchemist",
+  "parent": "jobsplus:alchemist/potion_duration_ii",
+  "icon": {
+    "id": "minecraft:glowstone_dust",
+    "count": 3
+  },
+  "price": 16,
+  "required_level": 90
+}

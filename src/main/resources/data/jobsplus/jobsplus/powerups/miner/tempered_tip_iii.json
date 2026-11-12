@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:miner",
+  "parent": "jobsplus:miner/tempered_tip_ii",
+  "icon": {
+    "id": "minecraft:enchanted_book",
+    "count": 3
+  },
+  "price": 16,
+  "required_level": 90
+}

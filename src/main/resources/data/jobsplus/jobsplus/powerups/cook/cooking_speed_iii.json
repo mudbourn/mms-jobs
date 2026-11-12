@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:cook",
+  "parent": "jobsplus:cook/cooking_speed_ii",
+  "icon": {
+    "id": "minecraft:smoker",
+    "count": 3
+  },
+  "price": 16,
+  "required_level": 90
+}

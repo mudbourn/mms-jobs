@@ -14,6 +14,17 @@
   "conditions": [
     {
       "type": "arc:crop_fully_grown"
+    },
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:farmer/crop_yield_iii"
+    },
+    {
+      "type": "arc:scoreboard",
+      "objective": "mms_jobs_class",
+      "min": 5,
+      "max": 5,
+      "inverted": true
     }
   ]
 }

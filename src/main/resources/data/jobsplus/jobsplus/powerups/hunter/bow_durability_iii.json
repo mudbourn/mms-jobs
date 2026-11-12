@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:hunter",
+  "parent": "jobsplus:hunter/bow_durability_ii",
+  "icon": {
+    "id": "minecraft:bow",
+    "count": 3
+  },
+  "price": 16,
+  "required_level": 90
+}

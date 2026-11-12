@@ -1,0 +1,23 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:smith/anvil_refund_iii"
+  },
+  "type": "arc:on_use_anvil",
+  "rewards": [
+    {
+      "type": "arc:exp",
+      "min": 9,
+      "max": 15
+    }
+  ],
+  "conditions": [
+    {
+      "type": "arc:scoreboard",
+      "objective": "mms_jobs_class",
+      "min": 12,
+      "max": 12,
+      "inverted": true
+    }
+  ]
+}

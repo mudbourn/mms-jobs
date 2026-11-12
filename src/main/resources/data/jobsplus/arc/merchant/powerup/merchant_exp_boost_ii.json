@@ -10,5 +10,18 @@
       "job": "jobsplus:merchant",
       "multiplier": 2.0
     }
+  ],
+  "conditions": [
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:merchant/merchant_exp_boost_iii"
+    },
+    {
+      "type": "arc:scoreboard",
+      "objective": "mms_jobs_class",
+      "min": 8,
+      "max": 8,
+      "inverted": true
+    }
   ]
 }

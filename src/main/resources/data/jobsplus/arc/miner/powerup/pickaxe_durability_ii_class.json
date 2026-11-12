@@ -1,0 +1,31 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:miner/pickaxe_durability_ii"
+  },
+  "type": "arc:on_hurt_item",
+  "rewards": [
+    {
+      "type": "arc:cancel_action",
+      "chance": 35
+    }
+  ],
+  "conditions": [
+    {
+      "type": "arc:items",
+      "items": [
+        "#minecraft:pickaxes"
+      ]
+    },
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:miner/pickaxe_durability_iii"
+    },
+    {
+      "type": "arc:scoreboard",
+      "objective": "mms_jobs_class",
+      "min": 9,
+      "max": 9
+    }
+  ]
+}

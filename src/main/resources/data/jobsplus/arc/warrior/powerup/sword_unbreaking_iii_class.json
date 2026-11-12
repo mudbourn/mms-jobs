@@ -1,0 +1,27 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:warrior/sword_unbreaking_iii"
+  },
+  "type": "arc:on_hurt_item",
+  "rewards": [
+    {
+      "type": "arc:cancel_action",
+      "chance": 45
+    }
+  ],
+  "conditions": [
+    {
+      "type": "arc:items",
+      "items": [
+        "#minecraft:swords"
+      ]
+    },
+    {
+      "type": "arc:scoreboard",
+      "objective": "mms_jobs_class",
+      "min": 13,
+      "max": 13
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:cook/food_saturation_i"
+  },
+  "type": "arc:on_eat",
+  "rewards": [
+    {
+      "type": "arc:feed",
+      "food_level": 1,
+      "saturation": 2.5
+    }
+  ],
+  "conditions": [
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:cook/food_saturation_ii"
+    },
+    {
+      "type": "arc:scoreboard",
+      "objective": "mms_jobs_class",
+      "min": 3,
+      "max": 3
+    }
+  ]
+}

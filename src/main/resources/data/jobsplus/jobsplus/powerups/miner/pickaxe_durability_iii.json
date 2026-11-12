@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:miner",
+  "parent": "jobsplus:miner/pickaxe_durability_ii",
+  "icon": {
+    "id": "minecraft:iron_pickaxe",
+    "count": 3
+  },
+  "price": 16,
+  "required_level": 90
+}

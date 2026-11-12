@@ -10,5 +10,18 @@
       "job": "jobsplus:lumberjack",
       "multiplier": 2.0
     }
+  ],
+  "conditions": [
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:lumberjack/lumberjack_exp_boost_iii"
+    },
+    {
+      "type": "arc:scoreboard",
+      "objective": "mms_jobs_class",
+      "min": 7,
+      "max": 7,
+      "inverted": true
+    }
   ]
 }

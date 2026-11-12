@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:smith",
+  "parent": "jobsplus:smith/smelting_speed_ii",
+  "icon": {
+    "id": "minecraft:blast_furnace",
+    "count": 3
+  },
+  "price": 16,
+  "required_level": 90
+}

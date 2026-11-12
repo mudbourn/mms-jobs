@@ -24,6 +24,13 @@
     {
       "type": "jobsplus:powerup_not_active",
       "powerup": "jobsplus:lumberjack/log_yield_ii"
+    },
+    {
+      "type": "arc:scoreboard",
+      "objective": "mms_jobs_class",
+      "min": 7,
+      "max": 7,
+      "inverted": true
     }
   ]
 }

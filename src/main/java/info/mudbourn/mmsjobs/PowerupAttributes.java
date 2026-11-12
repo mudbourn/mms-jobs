@@ -24,6 +24,7 @@ public final class PowerupAttributes {
         AttributeModifier.Operation operation,
         double rankOne,
         double rankTwo,
+        double rankThree,
         Predicate<ServerPlayer> applies
     ) {
         Identifier modifierId() {
@@ -39,6 +40,7 @@ public final class PowerupAttributes {
             AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL,
             0.20,
             0.40,
+            0.60,
             ServerPlayer::isSprinting
         ),
         new Bonus(
@@ -48,6 +50,7 @@ public final class PowerupAttributes {
             AttributeModifier.Operation.ADD_VALUE,
             0.33,
             0.66,
+            1.0,
             player -> true
         ),
         new Bonus(
@@ -57,6 +60,17 @@ public final class PowerupAttributes {
             AttributeModifier.Operation.ADD_VALUE,
             0.15,
             0.30,
+            0.45,
+            player -> true
+        ),
+        new Bonus(
+            "explorer",
+            "lucky_finds",
+            Attributes.LUCK,
+            AttributeModifier.Operation.ADD_VALUE,
+            2.0,
+            4.0,
+            6.0,
             player -> true
         )
     );
@@ -92,6 +106,8 @@ public final class PowerupAttributes {
 
     private static double amountFor(ServerPlayer player, Bonus bonus) {
         return switch (PowerupRanks.rank(player, bonus.job(), bonus.powerup())) {
+            case 4 -> bonus.rankThree() + (bonus.rankThree() - bonus.rankTwo());
+            case 3 -> bonus.rankThree();
             case 2 -> bonus.rankTwo();
             case 1 -> bonus.rankOne();
             default -> 0.0;

@@ -19,6 +19,17 @@
         "#minecraft:leg_armor",
         "#minecraft:foot_armor"
       ]
+    },
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:smith/armor_durability_iii"
+    },
+    {
+      "type": "arc:scoreboard",
+      "objective": "mms_jobs_class",
+      "min": 12,
+      "max": 12,
+      "inverted": true
     }
   ]
 }

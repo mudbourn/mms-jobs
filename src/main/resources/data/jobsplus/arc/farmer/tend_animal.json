@@ -1,0 +1,41 @@
+{
+  "holder": {
+    "type": "jobsplus:job",
+    "id": "jobsplus:farmer"
+  },
+  "type": "arc:on_interact_entity",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp",
+      "min": 1,
+      "max": 2
+    }
+  ],
+  "conditions": [
+    {
+      "type": "arc:entity_types",
+      "entity_types": [
+        "minecraft:cow",
+        "minecraft:mooshroom",
+        "minecraft:sheep",
+        "minecraft:pig",
+        "minecraft:chicken",
+        "minecraft:goat",
+        "minecraft:rabbit"
+      ]
+    },
+    {
+      "type": "arc:items",
+      "items": [
+        "#minecraft:cow_food",
+        "#minecraft:sheep_food",
+        "#minecraft:pig_food",
+        "#minecraft:chicken_food",
+        "#minecraft:goat_food",
+        "#minecraft:rabbit_food",
+        "minecraft:shears",
+        "minecraft:bucket"
+      ]
+    }
+  ]
+}

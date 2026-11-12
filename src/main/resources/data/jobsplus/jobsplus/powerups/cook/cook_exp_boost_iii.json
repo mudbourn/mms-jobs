@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:cook",
+  "parent": "jobsplus:cook/cook_exp_boost_ii",
+  "icon": {
+    "id": "minecraft:experience_bottle",
+    "count": 3
+  },
+  "price": 16,
+  "required_level": 90
+}

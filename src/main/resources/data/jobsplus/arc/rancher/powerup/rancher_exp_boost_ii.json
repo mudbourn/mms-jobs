@@ -10,5 +10,11 @@
       "job": "jobsplus:rancher",
       "multiplier": 2.0
     }
+  ],
+  "conditions": [
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:rancher/rancher_exp_boost_iii"
+    }
   ]
 }

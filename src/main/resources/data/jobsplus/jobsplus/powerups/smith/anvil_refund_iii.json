@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:smith",
+  "parent": "jobsplus:smith/anvil_refund_ii",
+  "icon": {
+    "id": "minecraft:anvil",
+    "count": 3
+  },
+  "price": 16,
+  "required_level": 90
+}

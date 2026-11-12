@@ -7,16 +7,25 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Applies mixins only when Jobs+ is loaded, and Farmer's Delight hooks only when it is too.
+ * Applies mixins only when Jobs+ is loaded, and Farmer's Delight, Useless Reptile and Origins hooks only when those are too.
  */
 public class JobsMixinGate implements IMixinConfigPlugin {
 
     private final boolean present = FabricLoader.getInstance().isModLoaded("jobsplus");
     private final boolean farmersDelight = FabricLoader.getInstance().isModLoaded("farmersdelight");
+    private final boolean uselessReptile = FabricLoader.getInstance().isModLoaded("uselessreptile");
+    private final boolean origins = FabricLoader.getInstance().isModLoaded("origins-legacy");
 
     @Override public void onLoad(String mixinPackage) {}
     @Override public String getRefMapperConfig() { return null; }
-    @Override public boolean shouldApplyMixin(String targetClassName, String mixinClassName) { return present && (farmersDelight || !mixinClassName.contains("FarmersDelight")); }
+    @Override
+    public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
+        if (!present) return false;
+        if (mixinClassName.contains("FarmersDelight")) return farmersDelight;
+        if (mixinClassName.contains("Dragon")) return uselessReptile;
+        if (mixinClassName.contains("Orb")) return origins;
+        return true;
+    }
     @Override public void acceptTargets(Set<String> myTargets, Set<String> otherTargets) {}
     @Override public List<String> getMixins() { return List.of(); }
     @Override public void preApply(String targetClassName, org.objectweb.asm.tree.ClassNode targetClass, String mixinClassName, org.spongepowered.asm.mixin.extensibility.IMixinInfo mixinInfo) {}

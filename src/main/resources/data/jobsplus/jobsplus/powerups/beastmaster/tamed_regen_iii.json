@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:beastmaster",
+  "parent": "jobsplus:beastmaster/tamed_regen_ii",
+  "icon": {
+    "id": "minecraft:golden_apple",
+    "count": 3
+  },
+  "price": 16,
+  "required_level": 90
+}

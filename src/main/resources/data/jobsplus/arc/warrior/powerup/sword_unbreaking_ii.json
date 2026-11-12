@@ -16,6 +16,17 @@
       "items": [
         "#minecraft:swords"
       ]
+    },
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:warrior/sword_unbreaking_iii"
+    },
+    {
+      "type": "arc:scoreboard",
+      "objective": "mms_jobs_class",
+      "min": 13,
+      "max": 13,
+      "inverted": true
     }
   ]
 }

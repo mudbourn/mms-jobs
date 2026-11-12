@@ -1,0 +1,8 @@
+{
+  "job": "jobsplus:explorer",
+  "icon": {
+    "id": "minecraft:rabbit_foot"
+  },
+  "price": 5,
+  "required_level": 15
+}

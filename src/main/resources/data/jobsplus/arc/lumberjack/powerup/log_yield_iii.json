@@ -1,0 +1,32 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:lumberjack/log_yield_iii"
+  },
+  "type": "arc:on_break_block",
+  "rewards": [
+    {
+      "type": "arc:block_drop_multiplier",
+      "chance": 30,
+      "multiplier": 2
+    }
+  ],
+  "conditions": [
+    {
+      "type": "arc:blocks",
+      "blocks": [
+        "#minecraft:logs"
+      ]
+    },
+    {
+      "type": "arc:not_in_block_pos_cache"
+    },
+    {
+      "type": "arc:scoreboard",
+      "objective": "mms_jobs_class",
+      "min": 7,
+      "max": 7,
+      "inverted": true
+    }
+  ]
+}

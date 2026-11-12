@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:explorer",
+  "parent": "jobsplus:explorer/silver_tongue_i",
+  "icon": {
+    "id": "minecraft:emerald",
+    "count": 2
+  },
+  "price": 10,
+  "required_level": 50
+}

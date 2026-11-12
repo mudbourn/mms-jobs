@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:miner",
+  "parent": "jobsplus:miner/vein_miner_ii",
+  "icon": {
+    "id": "minecraft:raw_iron",
+    "count": 3
+  },
+  "price": 16,
+  "required_level": 90
+}

@@ -5,6 +5,6 @@
     "id": "minecraft:iron_hoe",
     "count": 2
   },
-  "price": 8,
-  "required_level": 25
+  "price": 10,
+  "required_level": 50
 }

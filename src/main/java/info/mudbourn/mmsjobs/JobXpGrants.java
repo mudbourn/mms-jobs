@@ -36,12 +36,12 @@ public final class JobXpGrants {
         if (held == null) return;
 
         double xp = min + (max - min) * player.getRandom().nextDouble();
-        JobsPlusActionCooldown.setCooldownType(category);
+        JobsPlusActionCooldown.beginAction(category);
         JobsPlusActionCooldown.setPvpDenied(pvpDenied);
         try {
             held.addExperience(xp);
         } finally {
-            JobsPlusActionCooldown.clearCooldownType();
+            JobsPlusActionCooldown.endAction();
         }
     }
 }

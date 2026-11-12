@@ -1,0 +1,25 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:merchant/trade_bonus_iii"
+  },
+  "type": "arc:on_trade_with_villager",
+  "rewards": [
+    {
+      "type": "arc:drop_item",
+      "chance": 35,
+      "item": {
+        "id": "minecraft:emerald"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "arc:scoreboard",
+      "objective": "mms_jobs_class",
+      "min": 8,
+      "max": 8,
+      "inverted": true
+    }
+  ]
+}

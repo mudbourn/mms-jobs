@@ -22,7 +22,7 @@
       "type": "arc:items",
       "items": [
         "#c:tools",
-        "#c:armor"
+        "#c:armors"
       ]
     }
   ]

@@ -1,0 +1,18 @@
+{
+  "holder": {
+    "type": "jobsplus:job",
+    "id": "jobsplus:explorer"
+  },
+  "type": "arc:on_fished_up_item",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp",
+      "min": 2,
+      "max": 4
+    },
+    {
+      "type": "arc:exp",
+      "max": 1
+    }
+  ]
+}

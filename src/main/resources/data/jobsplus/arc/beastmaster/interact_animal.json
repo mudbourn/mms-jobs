@@ -10,5 +10,33 @@
       "min": 1,
       "max": 2
     }
+  ],
+  "conditions": [
+    {
+      "type": "arc:entity_types",
+      "entity_types": [
+        "minecraft:wolf",
+        "minecraft:cat",
+        "minecraft:ocelot",
+        "minecraft:parrot",
+        "minecraft:horse",
+        "minecraft:donkey",
+        "minecraft:mule",
+        "minecraft:llama",
+        "minecraft:camel"
+      ]
+    },
+    {
+      "type": "arc:items",
+      "items": [
+        "#minecraft:wolf_food",
+        "#minecraft:cat_food",
+        "#minecraft:ocelot_food",
+        "#minecraft:parrot_food",
+        "#minecraft:horse_food",
+        "#minecraft:llama_food",
+        "#minecraft:camel_food"
+      ]
+    }
   ]
 }

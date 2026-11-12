@@ -10,5 +10,18 @@
       "job": "jobsplus:beastmaster",
       "multiplier": 2.0
     }
+  ],
+  "conditions": [
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:beastmaster/beastmaster_exp_boost_iii"
+    },
+    {
+      "type": "arc:scoreboard",
+      "objective": "mms_jobs_class",
+      "min": 2,
+      "max": 2,
+      "inverted": true
+    }
   ]
 }

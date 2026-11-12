@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * Gives a Rancher a chance at bonus wool when shearing a sheep by hand.
+ * Gives a Farmer a chance at bonus wool when shearing a sheep by hand.
  */
 @Mixin(Sheep.class)
 public class ShearingYieldMixin {

@@ -1,0 +1,8 @@
+{
+  "job": "jobsplus:rogue",
+  "icon": {
+    "id": "minecraft:iron_sword"
+  },
+  "price": 5,
+  "required_level": 15
+}

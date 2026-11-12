@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:explorer",
+  "parent": "jobsplus:explorer/lucky_finds_i",
+  "icon": {
+    "id": "minecraft:rabbit_foot",
+    "count": 2
+  },
+  "price": 10,
+  "required_level": 50
+}

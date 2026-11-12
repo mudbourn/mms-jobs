@@ -40,7 +40,8 @@ public class JobXpCooldownMixin {
             : null;
         String jobId = jobInstance.getIdentifier().toString();
         boolean weaponBlocked = JobsPlusActionCooldown.isWeaponBlocked(jobId)
-            || JobsPlusActionCooldown.isPvpDenied();
+            || JobsPlusActionCooldown.isPvpDenied()
+            || JobsPlusActionCooldown.isDenied();
 
         if (weaponBlocked) {
             JobsPlusActionCooldown.recordJobGrant(jobId, false);
@@ -61,10 +62,17 @@ public class JobXpCooldownMixin {
             return 0.0;
         }
 
+        double paid = experience * JobsPlusActionCooldown.combatScale(jobId);
+        if (paid <= 0) {
+            JobsPlusActionCooldown.recordJobGrant(jobId, false);
+            report(serverPlayer, jobId, actionId, category, unrecognised, experience, 0.0);
+            return 0.0;
+        }
+
         JobsPlusActionCooldown.setCooldown(serverPlayer.getUUID(), jobId, category, gameTime);
         JobsPlusActionCooldown.recordJobGrant(jobId, true);
-        report(serverPlayer, jobId, actionId, category, unrecognised, experience, experience);
-        return experience;
+        report(serverPlayer, jobId, actionId, category, unrecognised, experience, paid);
+        return paid;
     }
 
     // Live readout for /mmsjob watch

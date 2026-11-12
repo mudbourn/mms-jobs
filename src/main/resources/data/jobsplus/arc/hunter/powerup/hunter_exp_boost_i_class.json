@@ -1,0 +1,26 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:hunter/hunter_exp_boost_i"
+  },
+  "type": "jobsplus:on_job_exp",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp_multiplier",
+      "job": "jobsplus:hunter",
+      "multiplier": 2.0
+    }
+  ],
+  "conditions": [
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:hunter/hunter_exp_boost_ii"
+    },
+    {
+      "type": "arc:scoreboard",
+      "objective": "mms_jobs_class",
+      "min": 6,
+      "max": 6
+    }
+  ]
+}

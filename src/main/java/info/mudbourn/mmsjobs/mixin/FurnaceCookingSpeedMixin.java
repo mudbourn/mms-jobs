@@ -9,13 +9,16 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
 /**
- * Shortens food cook times in furnaces a Cook last opened.
+ * Shortens cook times in furnaces a Cook or Smith last opened.
  */
 @Mixin(AbstractFurnaceBlockEntity.class)
 public abstract class FurnaceCookingSpeedMixin implements CookingSpeed.Station {
 
     @Unique
     private int mmsJobs$cookRank;
+
+    @Unique
+    private int mmsJobs$smithRank;
 
     @Override
     public int mmsJobs$getCookRank() {
@@ -25,6 +28,16 @@ public abstract class FurnaceCookingSpeedMixin implements CookingSpeed.Station {
     @Override
     public void mmsJobs$setCookRank(int rank) {
         mmsJobs$cookRank = rank;
+    }
+
+    @Override
+    public int mmsJobs$getSmithRank() {
+        return mmsJobs$smithRank;
+    }
+
+    @Override
+    public void mmsJobs$setSmithRank(int rank) {
+        mmsJobs$smithRank = rank;
     }
 
     @ModifyReturnValue(method = "getTotalCookTime", at = @At("RETURN"))

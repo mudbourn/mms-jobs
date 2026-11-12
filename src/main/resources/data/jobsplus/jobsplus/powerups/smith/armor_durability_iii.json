@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:smith",
+  "parent": "jobsplus:smith/armor_durability_ii",
+  "icon": {
+    "id": "minecraft:iron_chestplate",
+    "count": 3
+  },
+  "price": 16,
+  "required_level": 90
+}

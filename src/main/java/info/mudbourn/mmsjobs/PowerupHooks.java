@@ -10,7 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 /**
- * Rogue Mob Awareness and Rancher Shearing Yield, called from their mixins.
+ * Rogue Mob Awareness and Farmer Shearing Yield, called from their mixins.
  */
 public final class PowerupHooks {
 
@@ -21,17 +21,21 @@ public final class PowerupHooks {
         if (!(entity instanceof ServerPlayer player) || !player.isDiscrete()) return visibility;
 
         return switch (PowerupRanks.rank(player, "rogue", "mob_awareness")) {
+            case 4 -> visibility * 0.15;
+            case 3 -> visibility * 0.25;
             case 2 -> visibility * 0.5;
             case 1 -> visibility * 0.75;
             default -> visibility;
         };
     }
 
-    /** Rolls a bonus wool of the sheep's own colour after a Rancher shears it. */
+    /** Rolls a bonus wool of the sheep's own colour after a Farmer shears it. */
     public static void sheared(Sheep sheep, Player player) {
         if (!(sheep.level() instanceof ServerLevel level)) return;
 
-        float chance = switch (PowerupRanks.rank(player, "rancher", "shearing_yield")) {
+        float chance = switch (PowerupRanks.rank(player, "farmer", "shearing_yield")) {
+            case 4 -> 0.45f;
+            case 3 -> 0.35f;
             case 2 -> 0.25f;
             case 1 -> 0.15f;
             default -> 0.0f;

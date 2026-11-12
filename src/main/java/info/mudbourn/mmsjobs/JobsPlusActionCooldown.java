@@ -48,34 +48,44 @@ public final class JobsPlusActionCooldown {
     /** Damage class of a combat XP grant, for weapon-gated jobs. */
     public enum WeaponClass { ARROW, MELEE, THROWN, UNARMED, NONE }
 
-    // Action and weapon for the grant in flight on one thread
+    // Action and weapon for one grant in flight, stacked per thread so nested actions keep their own
     private static final class Flight {
         CooldownCategory category = CooldownCategory.NONE;
         Object actionId;
         WeaponClass weapon = WeaponClass.NONE;
         boolean pvpDenied;
+        boolean denied;
+        boolean passiveTarget;
+        double combatScale = 1.0;
         final Map<String, Boolean> paidJobs = new HashMap<>();
     }
 
     // Cooldown slot for one player, job and category
     private record Key(UUID player, String job, CooldownCategory category) {}
 
-    private static final ThreadLocal<Flight> FLIGHT = ThreadLocal.withInitial(Flight::new);
+    private static final int MAX_DEPTH = 64;
+    private static final Flight IDLE = new Flight();
+    private static final ThreadLocal<Deque<Flight>> FLIGHTS = ThreadLocal.withInitial(ArrayDeque::new);
 
     // Category per action id, filled on first sight of each id
     private static final Map<Object, CooldownCategory> CATEGORY_CACHE = new ConcurrentHashMap<>();
 
+    private static Flight current() {
+        Flight flight = FLIGHTS.get().peek();
+        return flight == null ? IDLE : flight;
+    }
+
     public static void setWeaponClass(WeaponClass weapon) {
-        FLIGHT.get().weapon = weapon == null ? WeaponClass.NONE : weapon;
+        current().weapon = weapon == null ? WeaponClass.NONE : weapon;
     }
 
     public static void setPvpDenied(boolean denied) {
-        FLIGHT.get().pvpDenied = denied;
+        current().pvpDenied = denied;
     }
 
     // Records whether the job XP grant for a job was paid in the action in flight
     public static void recordJobGrant(String jobId, boolean paid) {
-        FLIGHT.get().paidJobs.put(jobId, paid);
+        current().paidJobs.put(jobId, paid);
     }
 
     // Whether the vanilla XP reward of a job's action may pay out now
@@ -83,44 +93,69 @@ public final class JobsPlusActionCooldown {
         if (!loaded) load();
         if (!vanillaXp) return false;
         if (!enabled) return true;
-        return jobId != null && Boolean.TRUE.equals(FLIGHT.get().paidJobs.get(jobId));
+        return jobId != null && Boolean.TRUE.equals(current().paidJobs.get(jobId));
     }
 
     public static boolean isPvpDenied() {
-        return FLIGHT.get().pvpDenied;
+        return current().pvpDenied;
     }
 
     public static WeaponClass getWeaponClass() {
-        return FLIGHT.get().weapon;
+        return current().weapon;
     }
 
     /**
-     * Records the action type for the grant in flight and resolves its category.
+     * Starts tracking a new action on this thread, on top of any action already in flight.
      *
      * @param actionTypeId action type id; its {@code toString()} is the config id
      */
-    public static void setCooldownType(Object actionTypeId) {
-        Flight flight = FLIGHT.get();
+    public static void beginAction(Object actionTypeId) {
+        Deque<Flight> flights = FLIGHTS.get();
+        if (flights.size() >= MAX_DEPTH) flights.clear();
+
+        Flight flight = new Flight();
         flight.category = cachedCategoryFor(actionTypeId);
         flight.actionId = actionTypeId;
+        flights.push(flight);
+    }
+
+    // Stops tracking the innermost action and returns to the one it was nested in.
+    public static void endAction() {
+        FLIGHTS.get().poll();
     }
 
     public static CooldownCategory getCooldownType() {
-        return FLIGHT.get().category;
+        return current().category;
     }
 
-    public static void clearCooldownType() {
-        Flight flight = FLIGHT.get();
-        flight.category = CooldownCategory.NONE;
-        flight.actionId = null;
-        flight.weapon = WeaponClass.NONE;
-        flight.pvpDenied = false;
-        flight.paidJobs.clear();
+    // Blocks every job's XP for the action in flight, for example a drink of plain water.
+    public static void setDenied(boolean denied) {
+        current().denied = denied;
+    }
+
+    public static boolean isDenied() {
+        return current().denied;
+    }
+
+    // Sets how much of its combat XP the action in flight pays, from kill density.
+    public static void setCombatScale(double scale) {
+        current().combatScale = scale;
+    }
+
+    // Combat XP scale for a job: the kill-density scale for combat jobs, otherwise 1.
+    public static double combatScale(String jobId) {
+        if (jobId == null || (!RANGED_JOBS.contains(jobId) && !MELEE_JOBS.contains(jobId))) return 1.0;
+        return current().combatScale;
+    }
+
+    // Marks a combat action whose target is not a hostile mob.
+    public static void setPassiveTarget(boolean passive) {
+        current().passiveTarget = passive;
     }
 
     /** Raw action type id for the grant in flight, for the watch readout only. */
     public static String getCurrentActionId() {
-        Object id = FLIGHT.get().actionId;
+        Object id = current().actionId;
         return id == null ? "<none>" : id.toString();
     }
 
@@ -178,7 +213,8 @@ public final class JobsPlusActionCooldown {
 
     // Jobs that only earn combat XP from melee or thrown weapons (warrior-style)
     private static final Set<String> MELEE_JOBS = new HashSet<>(Arrays.asList(
-        "jobsplus:warrior"
+        "jobsplus:warrior",
+        "jobsplus:rogue"
     ));
 
     private static boolean weaponGating = true;
@@ -231,7 +267,8 @@ public final class JobsPlusActionCooldown {
      *
      * <p>Archer-style jobs earn only from arrows and thrown weapons;
      * warrior-style jobs earn only from a held melee weapon or a thrown weapon.
-     * Fists and stray projectiles earn neither. A {@link WeaponClass#NONE}
+     * Fists and stray projectiles earn neither, and neither does hurting or
+     * killing a mob that is not hostile. A {@link WeaponClass#NONE}
      * weapon means the grant is not combat, so it is never gated.</p>
      *
      * @param jobId  job identifier string (e.g. {@code jobsplus:warrior})
@@ -241,8 +278,13 @@ public final class JobsPlusActionCooldown {
         if (!loaded) load();
         if (!weaponGating || jobId == null) return false;
 
-        WeaponClass weapon = FLIGHT.get().weapon;
-        if (weapon == WeaponClass.NONE || weapon == WeaponClass.THROWN) return false;
+        Flight flight = current();
+        WeaponClass weapon = flight.weapon;
+        if (weapon == WeaponClass.NONE) return false;
+
+        boolean combatJob = RANGED_JOBS.contains(jobId) || MELEE_JOBS.contains(jobId);
+        if (combatJob && flight.passiveTarget) return true;
+        if (weapon == WeaponClass.THROWN) return false;
 
         if (RANGED_JOBS.contains(jobId)) return weapon != WeaponClass.ARROW;
         if (MELEE_JOBS.contains(jobId)) return weapon != WeaponClass.MELEE;
@@ -299,6 +341,7 @@ public final class JobsPlusActionCooldown {
     public static void forget(UUID playerId) {
         COOLDOWNS.keySet().removeIf(key -> key.player().equals(playerId));
         WATCHERS.remove(playerId);
+        KillDensity.forget(playerId);
     }
 
     private static synchronized void load() {

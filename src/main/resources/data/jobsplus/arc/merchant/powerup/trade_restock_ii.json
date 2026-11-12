@@ -13,5 +13,18 @@
         "duration": 6000
       }
     }
+  ],
+  "conditions": [
+    {
+      "type": "jobsplus:powerup_not_active",
+      "powerup": "jobsplus:merchant/trade_restock_iii"
+    },
+    {
+      "type": "arc:scoreboard",
+      "objective": "mms_jobs_class",
+      "min": 8,
+      "max": 8,
+      "inverted": true
+    }
   ]
 }

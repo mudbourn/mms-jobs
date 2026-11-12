@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:rancher",
+  "parent": "jobsplus:rancher/breeding_xp_ii",
+  "icon": {
+    "id": "minecraft:wheat",
+    "count": 3
+  },
+  "price": 16,
+  "required_level": 90
+}

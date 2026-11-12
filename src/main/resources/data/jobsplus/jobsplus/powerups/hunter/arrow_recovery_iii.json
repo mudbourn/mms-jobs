@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:hunter",
+  "parent": "jobsplus:hunter/arrow_recovery_ii",
+  "icon": {
+    "id": "minecraft:arrow",
+    "count": 3
+  },
+  "price": 16,
+  "required_level": 90
+}

@@ -14,6 +14,7 @@ public class MmsJobs implements ModInitializer {
     @Override
     public void onInitialize() {
         JobsToolsEmbargo.register();
+        RespecBadge.register();
 
         if (FabricLoader.getInstance().isModLoaded("jobsplus")) {
             CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
@@ -21,10 +22,23 @@ public class MmsJobs implements ModInitializer {
             PowerupAttributes.register();
             TamedAura.register();
             CookingSpeed.register();
+            JobRespec.register();
+            RogueStealth.register();
+            RancherMerge.register();
+            PetBond.register();
+            JobTags.register();
+            VeinBreaker.register();
+            TimberYield.register();
+            if (FabricLoader.getInstance().isModLoaded("uselessreptile")) DragonBond.register();
         }
 
-        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
-            JobsPlusActionCooldown.forget(handler.getPlayer().getUUID()));
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
+            JobsPlusActionCooldown.forget(handler.getPlayer().getUUID());
+            RogueStealth.forget(handler.getPlayer().getUUID());
+            PetBond.forget(handler.getPlayer().getUUID());
+            VeinBreaker.forget(handler.getPlayer().getUUID());
+            TimberYield.forget(handler.getPlayer().getUUID());
+        });
 
         LOG.info("MMS Jobs loaded.");
     }

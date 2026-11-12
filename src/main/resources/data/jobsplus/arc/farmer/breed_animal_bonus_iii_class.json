@@ -1,0 +1,26 @@
+{
+  "holder": {
+    "type": "jobsplus:job",
+    "id": "jobsplus:farmer"
+  },
+  "type": "arc:on_breed_animal",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp",
+      "min": 8,
+      "max": 12.0
+    }
+  ],
+  "conditions": [
+    {
+      "type": "jobsplus:has_powerup_activated",
+      "powerup": "jobsplus:farmer/breeding_xp_iii"
+    },
+    {
+      "type": "arc:scoreboard",
+      "objective": "mms_jobs_class",
+      "min": 5,
+      "max": 5
+    }
+  ]
+}

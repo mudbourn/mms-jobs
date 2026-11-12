@@ -1,0 +1,31 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:smith/armor_durability_iii"
+  },
+  "type": "arc:on_hurt_item",
+  "rewards": [
+    {
+      "type": "arc:cancel_action",
+      "chance": 35
+    }
+  ],
+  "conditions": [
+    {
+      "type": "arc:items",
+      "items": [
+        "#minecraft:head_armor",
+        "#minecraft:chest_armor",
+        "#minecraft:leg_armor",
+        "#minecraft:foot_armor"
+      ]
+    },
+    {
+      "type": "arc:scoreboard",
+      "objective": "mms_jobs_class",
+      "min": 12,
+      "max": 12,
+      "inverted": true
+    }
+  ]
+}

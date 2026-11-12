@@ -15,6 +15,13 @@
     {
       "type": "jobsplus:powerup_not_active",
       "powerup": "jobsplus:rogue/rogue_exp_boost_ii"
+    },
+    {
+      "type": "arc:scoreboard",
+      "objective": "mms_jobs_class",
+      "min": 11,
+      "max": 11,
+      "inverted": true
     }
   ]
 }

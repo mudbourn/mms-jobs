@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:explorer",
+  "parent": "jobsplus:explorer/sprint_efficiency_ii",
+  "icon": {
+    "id": "minecraft:feather",
+    "count": 3
+  },
+  "price": 16,
+  "required_level": 90
+}

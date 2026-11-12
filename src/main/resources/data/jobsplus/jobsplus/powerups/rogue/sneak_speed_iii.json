@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:rogue",
+  "parent": "jobsplus:rogue/sneak_speed_ii",
+  "icon": {
+    "id": "minecraft:leather_boots",
+    "count": 3
+  },
+  "price": 16,
+  "required_level": 90
+}

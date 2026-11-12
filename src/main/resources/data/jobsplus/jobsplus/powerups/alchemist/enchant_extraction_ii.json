@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:alchemist",
+  "parent": "jobsplus:alchemist/enchant_extraction_i",
+  "icon": {
+    "id": "minecraft:enchanted_book",
+    "count": 2
+  },
+  "price": 10,
+  "required_level": 50
+}

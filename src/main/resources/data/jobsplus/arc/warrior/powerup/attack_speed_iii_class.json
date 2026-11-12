@@ -1,0 +1,21 @@
+{
+  "holder": {
+    "type": "jobsplus:powerup",
+    "id": "jobsplus:warrior/attack_speed_iii"
+  },
+  "type": "arc:on_get_attack_speed",
+  "rewards": [
+    {
+      "type": "arc:attack_speed_multiplier",
+      "multiplier": 1.4
+    }
+  ],
+  "conditions": [
+    {
+      "type": "arc:scoreboard",
+      "objective": "mms_jobs_class",
+      "min": 13,
+      "max": 13
+    }
+  ]
+}

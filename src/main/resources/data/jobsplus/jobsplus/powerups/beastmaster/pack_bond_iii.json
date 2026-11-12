@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:beastmaster",
+  "parent": "jobsplus:beastmaster/pack_bond_ii",
+  "icon": {
+    "id": "minecraft:lead",
+    "count": 3
+  },
+  "price": 16,
+  "required_level": 90
+}

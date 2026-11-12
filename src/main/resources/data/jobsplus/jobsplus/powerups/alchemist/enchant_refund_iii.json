@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:alchemist",
+  "parent": "jobsplus:alchemist/enchant_refund_ii",
+  "icon": {
+    "id": "minecraft:enchanting_table",
+    "count": 3
+  },
+  "price": 16,
+  "required_level": 90
+}

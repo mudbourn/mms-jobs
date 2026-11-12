@@ -1,0 +1,8 @@
+{
+  "job": "jobsplus:alchemist",
+  "icon": {
+    "id": "minecraft:enchanted_book"
+  },
+  "price": 5,
+  "required_level": 15
+}

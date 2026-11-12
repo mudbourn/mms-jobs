@@ -1,0 +1,10 @@
+{
+  "job": "jobsplus:smith",
+  "parent": "jobsplus:smith/thrifty_forging_ii",
+  "icon": {
+    "id": "minecraft:iron_ingot",
+    "count": 3
+  },
+  "price": 16,
+  "required_level": 90
+}

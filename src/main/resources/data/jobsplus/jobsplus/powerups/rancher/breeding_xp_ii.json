@@ -4,6 +4,6 @@
   "icon": {
     "id": "minecraft:wheat"
   },
-  "price": 8,
-  "required_level": 25
+  "price": 10,
+  "required_level": 50
 }
