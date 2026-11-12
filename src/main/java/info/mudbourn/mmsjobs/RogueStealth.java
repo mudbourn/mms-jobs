@@ -48,7 +48,7 @@ public final class RogueStealth {
         };
         if (bonus == 0.0f || !unaware(target, attacker)) return amount;
 
-        JobXpGrants.grant(attacker, "rogue", JobXpGrants.HARD, 1, 3);
+        JobXpGrants.grant(attacker, "rogue", JobXpGrants.HARD, JobXpSource.BACKSTAB);
         return amount * (1.0f + bonus);
     }
 

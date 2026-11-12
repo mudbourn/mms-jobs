@@ -3,6 +3,7 @@ package info.mudbourn.mmsjobs.mixin;
 import com.daqem.jobsplus.integration.arc.holder.holders.job.JobInstance;
 import com.daqem.jobsplus.player.JobsPlayer;
 import info.mudbourn.mmsjobs.JobsPlusActionCooldown;
+import info.mudbourn.mmsjobs.PowerupHooks;
 import info.mudbourn.mmsjobs.JobsPlusActionCooldown.CooldownCategory;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Final;
@@ -56,20 +57,23 @@ public class JobXpCooldownMixin {
 
         long gameTime = serverPlayer.level().getGameTime();
 
-        if (JobsPlusActionCooldown.isOnCooldown(serverPlayer.getUUID(), jobId, category, gameTime)) {
+        boolean bonus = JobsPlusActionCooldown.isBonus();
+        if (!bonus && JobsPlusActionCooldown.isOnCooldown(serverPlayer.getUUID(), jobId, category, gameTime)) {
             JobsPlusActionCooldown.recordJobGrant(jobId, false);
             report(serverPlayer, jobId, actionId, category, unrecognised, experience, 0.0);
             return 0.0;
         }
 
-        double paid = experience * JobsPlusActionCooldown.combatScale(jobId);
+        double paid = experience
+            * JobsPlusActionCooldown.combatScale(jobId)
+            * PowerupHooks.breedingScale(serverPlayer, jobId);
         if (paid <= 0) {
             JobsPlusActionCooldown.recordJobGrant(jobId, false);
             report(serverPlayer, jobId, actionId, category, unrecognised, experience, 0.0);
             return 0.0;
         }
 
-        JobsPlusActionCooldown.setCooldown(serverPlayer.getUUID(), jobId, category, gameTime);
+        if (!bonus) JobsPlusActionCooldown.setCooldown(serverPlayer.getUUID(), jobId, category, gameTime);
         JobsPlusActionCooldown.recordJobGrant(jobId, true);
         report(serverPlayer, jobId, actionId, category, unrecognised, experience, paid);
         return paid;

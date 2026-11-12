@@ -26,7 +26,7 @@ public final class ShieldBlocking {
         ItemStack shield = player.getItemBlockingWith();
         if (shield == null || !shield.is(WARRIOR_SHIELDS)) return;
 
-        JobXpGrants.grant(player, "warrior", JobXpGrants.HARD, 1, 3, pvpDenied(player, source));
+        JobXpGrants.grant(player, "warrior", JobXpGrants.HARD, JobXpSource.BLOCK_HIT, pvpDenied(player, source));
     }
 
     // Whether either side of a player-on-player hit has PvP off.

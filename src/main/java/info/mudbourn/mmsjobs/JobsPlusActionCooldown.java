@@ -56,6 +56,7 @@ public final class JobsPlusActionCooldown {
         boolean pvpDenied;
         boolean denied;
         boolean passiveTarget;
+        boolean bonus;
         double combatScale = 1.0;
         final Map<String, Boolean> paidJobs = new HashMap<>();
     }
@@ -151,6 +152,20 @@ public final class JobsPlusActionCooldown {
     // Marks a combat action whose target is not a hostile mob.
     public static void setPassiveTarget(boolean passive) {
         current().passiveTarget = passive;
+    }
+
+    // Marks the grant in flight as a bonus that skips the cooldown.
+    public static void setBonus(boolean bonus) {
+        current().bonus = bonus;
+    }
+
+    public static boolean isBonus() {
+        return current().bonus;
+    }
+
+    // Whether the action in flight is of the given Arc action type.
+    public static boolean isAction(Object actionTypeId) {
+        return actionTypeId.equals(current().actionId);
     }
 
     /** Raw action type id for the grant in flight, for the watch readout only. */

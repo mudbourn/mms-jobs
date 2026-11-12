@@ -1,0 +1,14 @@
+{
+  "holder": {
+    "type": "jobsplus:job",
+    "id": "jobsplus:explorer"
+  },
+  "type": "mms_jobs:on_find_loot",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp",
+      "min": 6,
+      "max": 10
+    }
+  ]
+}

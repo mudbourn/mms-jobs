@@ -1,0 +1,14 @@
+{
+  "holder": {
+    "type": "jobsplus:job",
+    "id": "jobsplus:hunter"
+  },
+  "type": "mms_jobs:on_long_shot",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp",
+      "min": 3,
+      "max": 5
+    }
+  ]
+}

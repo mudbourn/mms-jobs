@@ -31,7 +31,9 @@
     "SmeltingYieldMixin",
     "GrindstoneMenuAccessor",
     "GrindstoneExtractMixin",
-    "OrbClassLockMixin"
+    "OrbClassLockMixin",
+    "RancherSaveMixin",
+    "CureVillagerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

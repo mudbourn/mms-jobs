@@ -1,0 +1,14 @@
+{
+  "holder": {
+    "type": "jobsplus:job",
+    "id": "jobsplus:warrior"
+  },
+  "type": "mms_jobs:on_slay_boss",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp",
+      "min": 40,
+      "max": 60
+    }
+  ]
+}

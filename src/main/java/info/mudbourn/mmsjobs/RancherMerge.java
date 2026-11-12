@@ -5,7 +5,6 @@ import com.daqem.jobsplus.integration.arc.holder.holders.job.JobInstance;
 import com.daqem.jobsplus.integration.arc.holder.holders.job.JobManager;
 import com.daqem.jobsplus.player.JobsPlayer;
 import com.daqem.jobsplus.player.job.Job;
-import com.daqem.jobsplus.player.job.powerup.Powerup;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.loader.api.FabricLoader;
@@ -15,12 +14,22 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.storage.ValueInput;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
-// Folds the retired Rancher job and class into Farmer, adding Rancher XP onto Farmer.
+// Folds the removed Rancher job and class into Farmer, moving saved Rancher XP and coins onto Farmer.
 public final class RancherMerge {
-    private static final Identifier RANCHER = Identifier.fromNamespaceAndPath("jobsplus", "rancher");
+    private static final String RANCHER = "jobsplus:rancher";
     private static final Identifier FARMER = Identifier.fromNamespaceAndPath("jobsplus", "farmer");
     private static final String CLASS_LAYER = "origins-classes:class";
+    private static final double RANCHER_PRICE = 10;
+
+    // Rancher progress read from a player's save, waiting to be paid onto Farmer
+    private record Pending(double experience, double powerupCoins) {}
+
+    private static final Map<UUID, Pending> PENDING = new ConcurrentHashMap<>();
 
     private RancherMerge() {}
 
@@ -34,38 +43,61 @@ public final class RancherMerge {
         });
     }
 
+    // Reads the saved Rancher job before Jobs+ drops it as an unknown job.
+    public static void read(UUID playerId, ValueInput input) {
+        input.child("JobsPlus").ifPresent(jobsPlus -> {
+            for (ValueInput job : jobsPlus.childrenListOrEmpty("jobs")) {
+                if (!RANCHER.equals(job.getStringOr("job_instance", ""))) continue;
+
+                double experience = job.getDoubleOr("experience", 0);
+                int level = job.getIntOr("level", 0);
+                for (int i = 0; i < level; i++) {
+                    experience += Job.getExperienceToLevelUp(i);
+                }
+
+                double coins = 0;
+                for (ValueInput powerup : job.childrenListOrEmpty("powerups")) {
+                    String state = powerup.getStringOr("state", "");
+                    if (!state.equals("ACTIVE") && !state.equals("INACTIVE")) continue;
+                    coins += priceOf(powerup.getStringOr("powerup", ""));
+                }
+                PENDING.put(playerId, new Pending(experience, coins * JobsPlusConfig.powerupPriceMultiplier.get()));
+            }
+        });
+    }
+
+    // Price a Rancher powerup was bought at, from its rank suffix.
+    private static double priceOf(String powerup) {
+        if (powerup.endsWith("_iii")) return 16;
+        if (powerup.endsWith("_ii")) return 10;
+        if (powerup.endsWith("_i")) return 5;
+        return 0;
+    }
+
     private static void mergeJob(ServerPlayer player) {
         if (!(player instanceof JobsPlayer jobsPlayer)) return;
 
-        Job rancher = jobsPlayer.jobsplus$getJob(RANCHER);
-        if (rancher == null) return;
+        Pending pending = PENDING.get(player.getUUID());
+        if (pending == null) return;
 
         JobInstance farmerInstance = JobManager.getInstance().getJobs().get(FARMER);
         if (farmerInstance == null) return;
+        PENDING.remove(player.getUUID());
 
-        double experience = JobRespec.totalExperience(rancher);
-        double refund = 0;
-        for (Powerup powerup : rancher.getPowerupManager().getAllPowerups()) {
-            refund += powerup.getPowerupInstance().getPrice() * JobsPlusConfig.powerupPriceMultiplier.get();
-        }
-
+        double refund = pending.powerupCoins();
         Job farmer = jobsPlayer.jobsplus$getJob(farmerInstance);
-        boolean hadFarmer = farmer != null;
-        if (hadFarmer) {
-            refund += rancher.getJobInstance().getPrice() * JobsPlusConfig.jobPriceMultiplier.get();
+        if (farmer != null) {
+            refund += RANCHER_PRICE * JobsPlusConfig.jobPriceMultiplier.get();
+        } else {
+            farmer = jobsPlayer.jobsplus$addNewJob(farmerInstance);
         }
-
-        jobsPlayer.jobsplus$removeJob(rancher.getJobInstance());
-        jobsPlayer.jobsplus$getInactiveJobs().removeIf(job -> job.getJobInstance() == null
-            || RANCHER.equals(job.getJobInstance().getIdentifier()));
-        if (farmer == null) farmer = jobsPlayer.jobsplus$addNewJob(farmerInstance);
         if (farmer == null) return;
 
-        JobRespec.grantExperience(farmer, experience);
+        JobRespec.grantExperience(farmer, pending.experience());
         jobsPlayer.jobsplus$addCoins(refund);
         player.sendSystemMessage(Component.literal(String.format(
             "Rancher has joined Farmer. Your %.0f Rancher XP was added to Farmer%s.",
-            experience,
+            pending.experience(),
             refund > 0 ? String.format(" and %.0f coins were refunded", refund) : ""
         )).withStyle(ChatFormatting.GREEN));
     }

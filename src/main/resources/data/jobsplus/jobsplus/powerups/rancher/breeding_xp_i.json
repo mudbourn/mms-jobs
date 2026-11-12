@@ -1,8 +1,0 @@
-{
-  "job": "jobsplus:rancher",
-  "icon": {
-    "id": "minecraft:wheat"
-  },
-  "price": 5,
-  "required_level": 15
-}

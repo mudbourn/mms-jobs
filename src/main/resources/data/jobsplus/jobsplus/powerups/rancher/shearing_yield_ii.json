@@ -1,9 +1,0 @@
-{
-  "job": "jobsplus:rancher",
-  "parent": "jobsplus:rancher/shearing_yield_i",
-  "icon": {
-    "id": "minecraft:shears"
-  },
-  "price": 10,
-  "required_level": 50
-}

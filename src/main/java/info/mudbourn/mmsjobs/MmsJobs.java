@@ -25,6 +25,9 @@ public class MmsJobs implements ModInitializer {
             JobRespec.register();
             RogueStealth.register();
             RancherMerge.register();
+            JobXpSource.register();
+            CombatBonuses.register();
+            ExplorerTravel.register();
             PetBond.register();
             JobTags.register();
             VeinBreaker.register();
@@ -38,6 +41,7 @@ public class MmsJobs implements ModInitializer {
             PetBond.forget(handler.getPlayer().getUUID());
             VeinBreaker.forget(handler.getPlayer().getUUID());
             TimberYield.forget(handler.getPlayer().getUUID());
+            ExplorerTravel.forget(handler.getPlayer().getUUID());
         });
 
         LOG.info("MMS Jobs loaded.");

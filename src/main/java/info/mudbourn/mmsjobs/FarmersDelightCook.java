@@ -21,14 +21,14 @@ public final class FarmersDelightCook {
     // Pays a cook for a meal taken from a cooking pot.
     public static void potMeal(Entity player) {
         if (player instanceof ServerPlayer cook) {
-            JobXpGrants.grant(cook, "cook", JobXpGrants.EASY, 2, 4);
+            JobXpGrants.grant(cook, "cook", JobXpGrants.EASY, JobXpSource.COOK_MEAL);
         }
     }
 
     // Pays a cook for a cut on a cutting board.
     public static void cut(Entity player) {
         if (player instanceof ServerPlayer cook) {
-            JobXpGrants.grant(cook, "cook", JobXpGrants.EASY, 1, 3);
+            JobXpGrants.grant(cook, "cook", JobXpGrants.EASY, JobXpSource.CUT_INGREDIENT);
         }
     }
 
@@ -46,7 +46,7 @@ public final class FarmersDelightCook {
 
         ServerPlayer cook = level.getServer().getPlayerList().getPlayer(operator);
         if (cook != null) {
-            JobXpGrants.grant(cook, "cook", JobXpGrants.EASY, 2, 4);
+            JobXpGrants.grant(cook, "cook", JobXpGrants.EASY, JobXpSource.COOK_MEAL);
         }
     }
 }

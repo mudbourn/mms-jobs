@@ -1,0 +1,22 @@
+{
+  "holder": {
+    "type": "jobsplus:job",
+    "id": "jobsplus:lumberjack"
+  },
+  "type": "arc:on_place_block",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp",
+      "min": 1,
+      "max": 2
+    }
+  ],
+  "conditions": [
+    {
+      "type": "arc:blocks",
+      "blocks": [
+        "#minecraft:saplings"
+      ]
+    }
+  ]
+}

@@ -1,8 +1,0 @@
-{
-  "name": "Rancher",
-  "price": 10,
-  "color": "#DEB887",
-  "icon": {
-    "id": "minecraft:lead"
-  }
-}

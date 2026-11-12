@@ -1,0 +1,14 @@
+{
+  "holder": {
+    "type": "jobsplus:job",
+    "id": "jobsplus:merchant"
+  },
+  "type": "mms_jobs:on_cure_villager",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp",
+      "min": 20,
+      "max": 30
+    }
+  ]
+}

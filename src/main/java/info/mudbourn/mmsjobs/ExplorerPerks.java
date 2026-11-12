@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.WeakHashMap;
 
-// Explorer loot XP and the Silver Tongue villager and piglin discounts.
+// Explorer loot XP, the Silver Tongue villager and piglin discounts, and Merchant barter XP.
 public final class ExplorerPerks {
     private static final Map<Piglin, UUID> BARTERERS = new WeakHashMap<>();
 
@@ -21,7 +21,7 @@ public final class ExplorerPerks {
 
     // Pays Explorer XP the first time a player rolls a container's or brushed block's loot.
     public static void lootGenerated(ServerPlayer player) {
-        JobXpGrants.grant(player, "explorer", JobXpGrants.HARD, 6, 10);
+        JobXpGrants.grant(player, "explorer", JobXpGrants.HARD, JobXpSource.FIND_LOOT);
     }
 
     // Takes a share off each trade's base cost for an Explorer with Silver Tongue.
@@ -46,13 +46,15 @@ public final class ExplorerPerks {
         if (thrower instanceof ServerPlayer player) BARTERERS.put(piglin, player.getUUID());
     }
 
-    // Rolls a chance to double a barter for the Explorer who paid for it.
+    // Pays a Merchant for a barter and rolls a chance to double it for an Explorer.
     public static void barter(Piglin piglin, List<ItemStack> items) {
         UUID payer = BARTERERS.remove(piglin);
         if (payer == null || piglin.level().getServer() == null) return;
 
         ServerPlayer player = piglin.level().getServer().getPlayerList().getPlayer(payer);
         if (player == null) return;
+
+        JobXpGrants.grant(player, "merchant", JobXpGrants.EASY, JobXpSource.BARTER);
 
         float chance = switch (PowerupRanks.rank(player, "explorer", "silver_tongue")) {
             case 4 -> 0.60f;

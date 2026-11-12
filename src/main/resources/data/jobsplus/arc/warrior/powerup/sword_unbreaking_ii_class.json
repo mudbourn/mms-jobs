@@ -24,8 +24,8 @@
     {
       "type": "arc:scoreboard",
       "objective": "mms_jobs_class",
-      "min": 13,
-      "max": 13
+      "min": 12,
+      "max": 12
     }
   ]
 }

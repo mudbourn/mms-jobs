@@ -20,7 +20,6 @@ public final class ClassSynergy {
         "lumberjack",
         "merchant",
         "miner",
-        "rancher",
         "rogue",
         "smith",
         "warrior"

@@ -10,9 +10,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 /**
- * Rogue Mob Awareness and Farmer Shearing Yield, called from their mixins.
+ * Rogue Mob Awareness and Farmer Shearing Yield and Breeding XP, called from their mixins.
  */
 public final class PowerupHooks {
+
+    private static final Identifier BREED_ANIMAL = Identifier.fromNamespaceAndPath("arc", "on_breed_animal");
 
     private PowerupHooks() {}
 
@@ -27,6 +29,12 @@ public final class PowerupHooks {
             case 1 -> visibility * 0.75;
             default -> visibility;
         };
+    }
+
+    /** Scales Farmer XP from the breeding action in flight by 25% per Breeding XP rank. */
+    public static double breedingScale(Player player, String jobId) {
+        if (!"jobsplus:farmer".equals(jobId) || !JobsPlusActionCooldown.isAction(BREED_ANIMAL)) return 1.0;
+        return 1.0 + 0.25 * PowerupRanks.rank(player, "farmer", "breeding_xp");
     }
 
     /** Rolls a bonus wool of the sheep's own colour after a Farmer shears it. */

@@ -1,0 +1,14 @@
+{
+  "holder": {
+    "type": "jobsplus:job",
+    "id": "jobsplus:beastmaster"
+  },
+  "type": "mms_jobs:on_pet_kill",
+  "rewards": [
+    {
+      "type": "jobsplus:job_exp",
+      "min": 2,
+      "max": 4
+    }
+  ]
+}
