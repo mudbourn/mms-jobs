@@ -19,6 +19,8 @@
     "FarmersDelightSkilletMixin",
     "FarmersDelightStoveMixin",
     "FarmersDelightCuttingBoardMixin",
+    "BrewinChewinKegPourMixin",
+    "BrewinChewinKegResultMixin",
     "LootGeneratedMixin",
     "PiglinBarterMixin",
     "VillagerHaggleMixin",

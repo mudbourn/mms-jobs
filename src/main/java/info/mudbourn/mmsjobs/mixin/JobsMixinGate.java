@@ -7,12 +7,13 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Applies mixins only when Jobs+ is loaded, and Farmer's Delight, Useless Reptile and Origins hooks only when those are too.
+ * Applies mixins only when Jobs+ is loaded, and Farmer's Delight, Brewin' and Chewin', Useless Reptile and Origins hooks only when those are too.
  */
 public class JobsMixinGate implements IMixinConfigPlugin {
 
     private final boolean present = FabricLoader.getInstance().isModLoaded("jobsplus");
     private final boolean farmersDelight = FabricLoader.getInstance().isModLoaded("farmersdelight");
+    private final boolean brewinAndChewin = FabricLoader.getInstance().isModLoaded("brewinandchewin");
     private final boolean uselessReptile = FabricLoader.getInstance().isModLoaded("uselessreptile");
     private final boolean origins = FabricLoader.getInstance().isModLoaded("origins-legacy");
 
@@ -22,6 +23,7 @@ public class JobsMixinGate implements IMixinConfigPlugin {
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         if (!present) return false;
         if (mixinClassName.contains("FarmersDelight")) return farmersDelight;
+        if (mixinClassName.contains("BrewinChewin")) return brewinAndChewin;
         if (mixinClassName.contains("Dragon")) return uselessReptile;
         if (mixinClassName.contains("Orb")) return origins;
         return true;
