@@ -11,6 +11,8 @@ import net.minecraft.server.level.ServerPlayer;
 // Reads a player's Origins class through the Origins API; only touched when Origins is loaded.
 final class OriginsClassReader {
     private static final Identifier CLASS_LAYER = Identifier.fromNamespaceAndPath("origins-classes", "class");
+    private static final Identifier ORIGIN_LAYER = Identifier.fromNamespaceAndPath("origins", "origin");
+    private static final Identifier FAIRY = Identifier.fromNamespaceAndPath("mms_origins", "fairy");
 
     private OriginsClassReader() {}
 
@@ -30,5 +32,22 @@ final class OriginsClassReader {
         Origin origin = component.getOrigin(layer);
         Identifier id = origin == null ? null : origin.getIdentifier();
         return id != null && "origins-classes".equals(id.getNamespace()) ? id.getPath() : null;
+    }
+
+    // Whether the player's origin layer holds mms_origins:fairy.
+    static boolean isFairy(ServerPlayer player) {
+        OriginLayer layer;
+        try {
+            layer = OriginLayers.getLayer(ORIGIN_LAYER);
+        } catch (RuntimeException e) {
+            return false;
+        }
+        if (layer == null) return false;
+
+        OriginComponent component = ModComponents.ORIGIN.get(player);
+        if (!component.hasOrigin(layer)) return false;
+
+        Origin origin = component.getOrigin(layer);
+        return origin != null && FAIRY.equals(origin.getIdentifier());
     }
 }
