@@ -32,6 +32,7 @@ public class MmsJobs implements ModInitializer {
             JobTags.register();
             VeinBreaker.register();
             TimberYield.register();
+            FarmerHarvest.register();
             if (FabricLoader.getInstance().isModLoaded("uselessreptile")) DragonBond.register();
         }
 
