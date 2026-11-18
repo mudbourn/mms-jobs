@@ -1,8 +1,8 @@
 package info.mudbourn.mmsjobs.mixin;
 
-import com.daqem.jobsplus.JobsPlus;
 import com.daqem.jobsplus.player.JobsPlayer;
 import com.daqem.jobsplus.player.job.Job;
+import com.daqem.knot.Knot;
 import net.minecraft.network.chat.MutableComponent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
  * translatable component into a raw key string before placing it in the
  * args array for the outer {@code jobsplus.job.level_up} translation.
  *
- * Fix: redirect the {@code JobsPlus.translatable} call and replace args[2]
+ * Fix: redirect the {@code Knot.translatable} call and replace args[2]
  * with the unresolved {@code MutableComponent} from {@code getName()},
  * so the client recursively resolves the nested translation key.
  */
@@ -28,15 +28,19 @@ public class JobLevelUpMessageMixin {
         method = "onJobLevelUp",
         at = @At(
             value = "INVOKE",
-            target = "Lcom/daqem/jobsplus/JobsPlus;translatable(Ljava/lang/String;[Ljava/lang/Object;)Lnet/minecraft/network/chat/MutableComponent;"
+            target = "Lcom/daqem/knot/Knot;translatable(Ljava/lang/String;[Ljava/lang/Object;)Lnet/minecraft/network/chat/MutableComponent;"
         ),
         // Cosmetic-only fix; tolerate a mismatched Jobs+ build rather than crash the server.
         require = 0
     )
-    private static MutableComponent mmsCompat$useTranslatableJobName(String key, Object[] args, JobsPlayer player, Job job) {
-        // args[2] is the job name — was .getName().getString() (literal).
-        // Replace with the translatable component so the client resolves it.
+    private static MutableComponent mmsCompat$useTranslatableJobName(
+        Knot knot,
+        String key,
+        Object[] args,
+        JobsPlayer player,
+        Job job
+    ) {
         args[2] = job.getJobInstance().getName();
-        return JobsPlus.translatable(key, args);
+        return knot.translatable(key, args);
     }
 }

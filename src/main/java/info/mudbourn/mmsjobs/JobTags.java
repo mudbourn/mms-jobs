@@ -50,7 +50,7 @@ public final class JobTags {
         for (Job job : jobsPlayer.jobsplus$getJobs()) {
             wanted.add(PREFIX + job.getJobInstance().getIdentifier().getPath());
         }
-        for (String tag : Set.copyOf(player.getTags())) {
+        for (String tag : Set.copyOf(player.entityTags())) {
             if (tag.startsWith(PREFIX) && !wanted.contains(tag)) player.removeTag(tag);
         }
         for (String tag : wanted) {

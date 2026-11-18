@@ -1,5 +1,5 @@
 plugins {
-    id 'net.fabricmc.fabric-loom-remap' version '1.17.14'
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
 }
 
 version = project.mod_version
@@ -9,35 +9,53 @@ base {
     archivesName = project.archives_base_name
 }
 
-repositories {
-    mavenCentral()
-    maven { url "https://api.modrinth.com/maven" }
+configurations {
+    runtimeMods {
+        transitive = false
+    }
 }
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings loom.officialMojangMappings()
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:0.141.4+1.21.11"
-    // The moved mixins and command bind to the Jobs+ API. Arc is Jobs+' own
-    // holder framework and its types leak into that API, so it has to be on the
-    // compile classpath alongside it. Both are supplied at runtime by the pack.
-    modCompileOnly files("libs/jobsplus-19.1.0-fabric.jar")
-    modCompileOnly files("libs/arc-19.1.1-fabric.jar")
-    modCompileOnly files("libs/yamlconfig-19.1.2-fabric.jar")
-    modCompileOnly files("libs/Origins-Legacy-1.12.16+1.21.11.jar")
-    modCompileOnly files("libs/Calio-Legacy-1.11.2+1.21.11.jar")
-    modCompileOnly files("libs/cardinal-components-base-7.3.1.jar")
-    modCompileOnly files("libs/cardinal-components-entity-7.3.1.jar")
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+    // Jobs+ and Arc, its holder framework whose types leak into the Jobs+ API.
+    compileOnly files(
+        "libs/26.3/jobsplus-fabric-${project.jobsplus_version}.jar",
+        "libs/26.3/arc-fabric-${project.arc_version}.jar",
+        "libs/26.3/knot-fabric-core-${project.knot_version}.jar",
+        "libs/26.3/yamlconfig-fabric-${project.yamlconfig_version}.jar"
+    )
+
+    // Origins Legacy, Calio Legacy and the Cardinal Components modules.
+    compileOnly files(
+        "libs/26.3/Origins-Legacy-${project.origins_version}.jar",
+        "libs/26.3/Calio-Legacy-${project.calio_version}.jar",
+        "libs/26.3/cardinal-components-base-${project.cardinal_version}.jar",
+        "libs/26.3/cardinal-components-entity-${project.cardinal_version}.jar"
+    )
+
+    // Dev runtime: Jobs+ and its libraries, Cardinal Components and the uproot shim.
+    runtimeMods files(
+        "libs/26.3/cardinal-components-api-${project.cardinal_version}.jar",
+        "libs/26.3/jobsplus-fabric-${project.jobsplus_version}.jar",
+        "libs/26.3/arc-fabric-${project.arc_version}.jar",
+        "libs/26.3/knot-fabric-core-${project.knot_version}.jar",
+        "libs/26.3/yamlconfig-fabric-${project.yamlconfig_version}.jar",
+        "libs/26.3/uilib-fabric-${project.uilib_version}.jar",
+        "libs/26.3/itemrestrictions-fabric-${project.itemrestrictions_version}.jar",
+        "libs/26.3/mms-uproot-0.1.0.jar"
+    )
 }
 
 tasks.withType(JavaCompile).configureEach {
-    it.options.release = 21
+    it.options.release = 25
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
     withSourcesJar()
 }
 
@@ -62,12 +80,29 @@ jar {
 // time it is touched at runtime, as a class-load crash in production. Fail the
 // build instead.
 def checkMixinPackages = tasks.register('checkMixinPackages', Exec) {
-    dependsOn tasks.named('remapJar')
+    dependsOn tasks.named('jar')
     doFirst {
         commandLine 'python3',
                 "$projectDir/gradle/scripts/check-mixin-packages.py",
-                tasks.named('remapJar').get().archiveFile.get().asFile
+                tasks.named('jar').get().archiveFile.get().asFile
     }
 }
 
 tasks.named('build') { dependsOn checkMixinPackages }
+
+// Copies the runtime mods into the dev run's mods folder.
+tasks.register("syncRuntimeMods") {
+    inputs.files(configurations.runtimeMods)
+    doLast {
+        copy {
+            from configurations.runtimeMods
+            into file("run/mods")
+        }
+    }
+}
+
+["runClient", "runServer"].each { runName ->
+    tasks.named(runName) {
+        dependsOn "syncRuntimeMods"
+    }
+}

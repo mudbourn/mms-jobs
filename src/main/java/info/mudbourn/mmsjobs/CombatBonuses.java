@@ -6,6 +6,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.monster.Enemy;
@@ -17,10 +18,10 @@ import java.util.Set;
 public final class CombatBonuses {
     private static final double LONG_SHOT_BLOCKS = 30;
     private static final Set<EntityType<?>> BOSSES = Set.of(
-        EntityType.ENDER_DRAGON,
-        EntityType.WITHER,
-        EntityType.ELDER_GUARDIAN,
-        EntityType.WARDEN
+        EntityTypes.ENDER_DRAGON,
+        EntityTypes.WITHER,
+        EntityTypes.ELDER_GUARDIAN,
+        EntityTypes.WARDEN
     );
 
     private CombatBonuses() {}

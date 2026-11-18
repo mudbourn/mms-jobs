@@ -1,8 +1,8 @@
 package info.mudbourn.mmsjobs;
 
-import com.daqem.arc.api.event.ArcBlockEvent;
 import com.daqem.jobsplus.player.JobsPlayer;
 import com.daqem.jobsplus.player.job.Job;
+import com.daqem.knot.events.common.block.BlockEvent;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.core.BlockPos;
@@ -151,7 +151,7 @@ public final class FarmerHarvest {
         player.causeFoodExhaustion(EXHAUSTION);
         if (hoe) tool.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
         if (state.getBlock() instanceof CropBlock) {
-            ArcBlockEvent.HARVEST_CROP.invoker().onHarvestCrop(level, pos, state, player, null);
+            BlockEvent.HARVEST_CROP.invoker().onHarvestCrop(level, pos, state, player);
         }
         return true;
     }

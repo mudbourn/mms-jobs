@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(targets = "vectorwing.farmersdelight.common.block.entity.container.CookingPotResultSlot")
 public class FarmersDelightPotResultMixin {
 
-    @Inject(method = "method_7667", at = @At("HEAD"))
+    @Inject(method = "onTake", at = @At("HEAD"))
     private void mmsJobs$mealTaken(Player player, ItemStack stack, CallbackInfo ci) {
         if (!stack.isEmpty()) {
             FarmersDelightCook.potMeal(player);

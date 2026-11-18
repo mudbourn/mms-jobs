@@ -7,6 +7,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -51,7 +52,7 @@ public final class TimberYield {
 
         double bonus = amount * rank * 0.25;
         int extra = (int) bonus + (serverPlayer.getRandom().nextDouble() < bonus % 1 ? 1 : 0);
-        if (extra > 0) serverPlayer.getInventory().placeItemBackInInventory(result.copyWithCount(extra));
+        if (extra > 0) serverPlayer.getInventory().placeItemBackInInventory(result.copyWithCount(extra), Prediction.SERVER_ONLY);
     }
 
     public static void forget(UUID playerId) {

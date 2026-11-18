@@ -19,10 +19,10 @@ import org.spongepowered.asm.mixin.injection.Coerce;
 public class FarmersDelightPotServeMixin {
 
     @WrapOperation(
-        method = "method_55765",
+        method = "useItemOn",
         at = @At(
             value = "INVOKE",
-            target = "Lvectorwing/farmersdelight/common/block/entity/CookingPotBlockEntity;useHeldItemOnMeal(Lnet/minecraft/class_1799;)Lnet/minecraft/class_1799;"
+            target = "Lvectorwing/farmersdelight/common/block/entity/CookingPotBlockEntity;useHeldItemOnMeal(Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/world/item/ItemStack;"
         )
     )
     private ItemStack mmsJobs$mealServed(

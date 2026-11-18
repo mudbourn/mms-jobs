@@ -4,6 +4,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -33,7 +34,7 @@ public final class SmithCraft {
         }
         counts.entrySet().stream()
             .max(Map.Entry.comparingByValue())
-            .ifPresent(main -> serverPlayer.getInventory().placeItemBackInInventory(new ItemStack(main.getKey())));
+            .ifPresent(main -> serverPlayer.getInventory().placeItemBackInInventory(new ItemStack(main.getKey()), Prediction.SERVER_ONLY));
     }
 
     // Adds a chance at one extra ingot or gem for each one the player takes from a furnace.
@@ -47,7 +48,7 @@ public final class SmithCraft {
         for (int i = 0; i < amount; i++) {
             if (serverPlayer.getRandom().nextFloat() < rank * 0.1f) extra++;
         }
-        if (extra > 0) serverPlayer.getInventory().placeItemBackInInventory(result.copyWithCount(extra));
+        if (extra > 0) serverPlayer.getInventory().placeItemBackInInventory(result.copyWithCount(extra), Prediction.SERVER_ONLY);
     }
 
     private static boolean isAny(ItemStack stack, List<TagKey<Item>> tags) {

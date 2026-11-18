@@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.EnchantmentTags;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -46,7 +47,7 @@ public final class EnchantExtraction {
                     stored.set(entry.getKey(), entry.getIntValue());
                 }
             });
-            serverPlayer.getInventory().placeItemBackInInventory(book);
+            serverPlayer.getInventory().placeItemBackInInventory(book, Prediction.SERVER_ONLY);
         }
     }
 

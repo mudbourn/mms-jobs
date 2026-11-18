@@ -1,7 +1,7 @@
 package info.mudbourn.mmsjobs.mixin;
 
 import info.mudbourn.mmsjobs.ExplorerPerks;
-import net.minecraft.advancements.criterion.LootTableTrigger;
+import net.minecraft.advancements.triggers.LootTableTrigger;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.storage.loot.LootTable;

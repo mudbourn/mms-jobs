@@ -34,7 +34,7 @@ public class FarmersDelightStoveMixin {
         method = "cookAndOutputItems",
         at = @At(
             value = "INVOKE",
-            target = "Lvectorwing/farmersdelight/common/utility/ItemUtils;spawnItemEntity(Lnet/minecraft/class_1937;Lnet/minecraft/class_1799;DDDDDD)V"
+            target = "Lvectorwing/farmersdelight/common/utility/ItemUtils;spawnItemEntity(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;DDDDDD)V"
         )
     )
     private void mmsJobs$finished(ServerLevel level, CallbackInfo ci) {

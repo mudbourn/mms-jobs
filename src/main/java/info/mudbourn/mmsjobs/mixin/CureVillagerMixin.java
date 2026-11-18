@@ -2,7 +2,7 @@ package info.mudbourn.mmsjobs.mixin;
 
 import info.mudbourn.mmsjobs.JobXpGrants;
 import info.mudbourn.mmsjobs.JobXpSource;
-import net.minecraft.advancements.criterion.CuredZombieVillagerTrigger;
+import net.minecraft.advancements.triggers.CuredZombieVillagerTrigger;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.entity.npc.villager.Villager;

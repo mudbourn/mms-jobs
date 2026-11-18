@@ -55,9 +55,8 @@ public final class DragonBond {
         if (dragon.isTame() || dragon.level().isClientSide() || !isTamingItem(dragon, stack)) return false;
 
         if (!isBeastmaster(player)) {
-            player.displayClientMessage(
-                Component.literal("Only a Beastmaster can tame a dragon.").withStyle(ChatFormatting.RED),
-                true
+            player.sendOverlayMessage(
+                Component.literal("Only a Beastmaster can tame a dragon.").withStyle(ChatFormatting.RED)
             );
             return true;
         }

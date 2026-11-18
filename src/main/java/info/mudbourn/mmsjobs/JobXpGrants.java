@@ -2,7 +2,10 @@ package info.mudbourn.mmsjobs;
 
 import com.daqem.arc.api.action.IAction;
 import com.daqem.arc.api.action.IActionType;
+import com.daqem.arc.api.action.data.ActionDataBuilder;
+import com.daqem.arc.api.player.ArcPlayer;
 import com.daqem.arc.api.reward.IReward;
+import com.daqem.arc.data.ActionData;
 import com.daqem.jobsplus.integration.arc.reward.rewards.job.JobExpReward;
 import com.daqem.jobsplus.player.JobsPlayer;
 import com.daqem.jobsplus.player.job.Job;
@@ -70,13 +73,15 @@ public final class JobXpGrants {
     }
 
     private static double roll(ServerPlayer player, Job held, IActionType<?> source) {
-        if (held == null) return 0;
+        if (held == null || !(player instanceof ArcPlayer arcPlayer)) return 0;
 
+        ActionData data = new ActionDataBuilder(arcPlayer, source).build();
         for (IAction action : held.getJobInstance().getActions()) {
             if (action.getType() != source) continue;
             for (IReward reward : action.getRewards()) {
                 if (reward instanceof JobExpReward range) {
-                    return range.getMin() + (range.getMax() - range.getMin()) * player.getRandom().nextDouble();
+                    double min = range.getMin().resolve(data);
+                    return min + (range.getMax().resolve(data) - min) * player.getRandom().nextDouble();
                 }
             }
         }

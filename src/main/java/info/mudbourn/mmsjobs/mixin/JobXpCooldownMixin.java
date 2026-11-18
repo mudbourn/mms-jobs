@@ -95,12 +95,12 @@ public class JobXpCooldownMixin {
         boolean blocked = out <= 0;
         String job = jobId.contains(":") ? jobId.substring(jobId.indexOf(':') + 1) : jobId;
 
-        player.displayClientMessage(net.minecraft.network.chat.Component.literal(
-            (blocked ? "§c✗ " : "§a✓ ") + job
-                + " §7" + actionId
-                + " §8[" + category + (unrecognised ? "*" : "") + "] "
+        player.sendSystemMessage(net.minecraft.network.chat.Component.literal(
+            (blocked ? "\u00a7c\u2717 " : "\u00a7a\u2713 ") + job
+                + " \u00a77" + actionId
+                + " \u00a78[" + category + (unrecognised ? "*" : "") + "] "
                 + (blocked
-                    ? "§cblocked §8(" + String.format("%.1f", in) + " xp)"
-                    : "§a+" + String.format("%.1f", out) + " xp")), false);
+                    ? "\u00a7cblocked \u00a78(" + String.format("%.1f", in) + " xp)"
+                    : "\u00a7a+" + String.format("%.1f", out) + " xp")));
     }
 }

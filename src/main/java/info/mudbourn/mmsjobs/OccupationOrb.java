@@ -1,6 +1,6 @@
 package info.mudbourn.mmsjobs;
 
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
@@ -43,7 +43,7 @@ public class OccupationOrb extends Item {
             key,
             new OccupationOrb(new Item.Properties().setId(key).stacksTo(16).rarity(Rarity.EPIC))
         );
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES)
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.TOOLS_AND_UTILITIES)
             .register(entries -> entries.accept(ITEM));
     }
 

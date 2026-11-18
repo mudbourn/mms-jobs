@@ -1,6 +1,6 @@
 package info.mudbourn.mmsjobs;
 
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
@@ -37,7 +37,7 @@ public class JobsToolsEmbargo {
     );
 
     public static void register() {
-        ItemGroupEvents.MODIFY_ENTRIES_ALL.register((group, entries) -> {
+        CreativeModeTabEvents.MODIFY_OUTPUT_ALL.register((group, entries) -> {
             entries.getDisplayStacks().removeIf(JobsToolsEmbargo::isEmbargoed);
             entries.getSearchTabStacks().removeIf(JobsToolsEmbargo::isEmbargoed);
         });

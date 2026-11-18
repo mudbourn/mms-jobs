@@ -2,6 +2,7 @@ package info.mudbourn.mmsjobs;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -35,12 +36,12 @@ public final class ChestLootReroll {
         ServerPlayer rewardee = REWARDEE.get();
         if (rewardee != null) return rate(rewardee);
 
-        ItemStack tool = context.getOptionalParameter(LootContextParams.TOOL);
+        ItemInstance tool = context.getOptional(LootContextParams.TOOL);
         boolean vault = tool != null && (tool.is(Items.TRIAL_KEY) || tool.is(Items.OMINOUS_TRIAL_KEY));
         if ((tool != null && !vault)
             || context.hasParameter(LootContextParams.BLOCK_STATE)
             || context.hasParameter(LootContextParams.DAMAGE_SOURCE)) return 0.0F;
-        if (!(context.getOptionalParameter(LootContextParams.THIS_ENTITY) instanceof ServerPlayer player)) return 0.0F;
+        if (!(context.getOptional(LootContextParams.THIS_ENTITY) instanceof ServerPlayer player)) return 0.0F;
         return rate(player);
     }
 

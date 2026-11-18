@@ -1,7 +1,7 @@
 {
   "required": false,
   "package": "info.mudbourn.mmsjobs.mixin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_25",
   "plugin": "info.mudbourn.mmsjobs.mixin.JobsMixinGate",
   "mixins": [
     "JobLevelUpMessageMixin",
