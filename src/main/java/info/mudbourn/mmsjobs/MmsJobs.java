@@ -13,7 +13,6 @@ public class MmsJobs implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        JobsToolsEmbargo.register();
         OccupationOrb.register();
 
         if (FabricLoader.getInstance().isModLoaded("jobsplus")) {
@@ -33,6 +32,8 @@ public class MmsJobs implements ModInitializer {
             VeinBreaker.register();
             TimberYield.register();
             FarmerHarvest.register();
+            MinerAreaBreak.register();
+            SmithWrench.register();
             if (FabricLoader.getInstance().isModLoaded("uselessreptile")) DragonBond.register();
         }
 

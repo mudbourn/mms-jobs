@@ -8,7 +8,6 @@
     "JobXpCooldownMixin",
     "ActionDataCooldownMixin",
     "ExpRewardGateMixin",
-    "JobsToolsMobEquipmentMixin",
     "FurnaceCookingSpeedMixin",
     "MobAwarenessMixin",
     "ShearingYieldMixin",
