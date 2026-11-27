@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public class OrbClassLockMixin {
 
     @Unique
-    private static final Identifier mmsJobs$CLASS_LAYER = Identifier.fromNamespaceAndPath("origins-classes", "class");
+    private static final Identifier mmsJobs$CLASS_LAYER = Identifier.fromNamespaceAndPath("mms_origins", "class");
 
     @WrapOperation(
         method = "use",

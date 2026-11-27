@@ -27,7 +27,7 @@ public final class ClassSynergy {
 
     private ClassSynergy() {}
 
-    // Whether the player's class is origins-classes:<origin>.
+    // Whether the player's class is mms_origins:<origin>.
     public static boolean has(ServerPlayer player, String origin) {
         return origin.equals(classOf(player));
     }

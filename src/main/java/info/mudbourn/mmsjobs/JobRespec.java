@@ -40,7 +40,7 @@ public final class JobRespec {
     private static final String FILE_NAME = "mms_jobs_respec.json";
     private static final double KEEP_RATE = 0.65;
     private static final int PAID_JOB_SLOT = 3;
-    private static final String CLASS_LAYER = "origins-classes:class";
+    private static final String CLASS_LAYER = "mms_origins:class";
 
     private static final Map<UUID, Credit> CREDITS = new HashMap<>();
     private static Path file;

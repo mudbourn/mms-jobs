@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class RancherMerge {
     private static final String RANCHER = "jobsplus:rancher";
     private static final Identifier FARMER = Identifier.fromNamespaceAndPath("jobsplus", "farmer");
-    private static final String CLASS_LAYER = "origins-classes:class";
+    private static final String CLASS_LAYER = "mms_origins:class";
     private static final double RANCHER_PRICE = 10;
 
     // Rancher progress read from a player's save, waiting to be paid onto Farmer
@@ -109,13 +109,13 @@ public final class RancherMerge {
         String name = player.getScoreboardName();
         try {
             int isRancher = server.getCommands().getDispatcher().execute(
-                "origin has " + name + " " + CLASS_LAYER + " origins-classes:rancher",
+                "origin has " + name + " " + CLASS_LAYER + " mms_origins:rancher",
                 source
             );
             if (isRancher <= 0) return;
 
             server.getCommands().getDispatcher().execute(
-                "origin set " + name + " " + CLASS_LAYER + " origins-classes:farmer",
+                "origin set " + name + " " + CLASS_LAYER + " mms_origins:farmer",
                 source
             );
             player.sendSystemMessage(Component.literal("The Rancher class has joined Farmer, so you are now a Farmer.")
