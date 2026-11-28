@@ -24,6 +24,7 @@
     "PiglinBarterMixin",
     "VillagerHaggleMixin",
     "ChestLootRerollMixin",
+    "LuckyDropsMixin",
     "TrialRewardRerollMixin",
     "TrialSpawnerDataAccessor",
     "BackstabMixin",
